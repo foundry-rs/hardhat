@@ -1,20 +1,20 @@
 import { assert } from "chai";
 
-import { GanacheService } from "../src/ganache-service";
+import { AnvilService } from "../src/anvil-service";
 
 import { useEnvironment } from "./helpers";
 
-describe("Ganache plugin with empty configs", function () {
-  useEnvironment("hardhat-project", "ganache");
+describe("Anvil plugin with empty configs", function () {
+  useEnvironment("hardhat-project", "anvil");
 
-  it("Should add ganache network to the config", function () {
-    assert.isDefined(this.env.config.networks.ganache);
+  it("Should add anvil network to the config", function () {
+    assert.isDefined(this.env.config.networks.anvil);
   });
 
-  it("Should expose ganache defaults configs in hardhat's config", function () {
-    assert.isDefined(this.env.config.networks.ganache);
-    const defaultOptions = GanacheService.getDefaultOptions() as any;
-    const options = this.env.config.networks.ganache as any;
+  it("Should expose anvil defaults configs in hardhat's config", function () {
+    assert.isDefined(this.env.config.networks.anvil);
+    const defaultOptions = AnvilService.getDefaultOptions() as any;
+    const options = this.env.config.networks.anvil as any;
 
     // Iterate over all default options and assert equality
     for (const [key, value] of Object.entries(defaultOptions)) {
@@ -22,7 +22,7 @@ describe("Ganache plugin with empty configs", function () {
     }
   });
 
-  it("Should run Hardhat TEST task using Ganache", async function () {
+  it("Should run Hardhat TEST task using Anvil", async function () {
     const failures = await this.env.run("test", {
       testFiles: [],
     });
@@ -30,7 +30,7 @@ describe("Ganache plugin with empty configs", function () {
     assert.equal(failures, 0);
   });
 
-  it("Should run Hardhat RUN task 'accounts-sample.js' using Ganache", async function () {
+  it("Should run Hardhat RUN task 'accounts-sample.js' using Anvil", async function () {
     await this.env.run("run", {
       noCompile: true,
       script: "scripts/accounts-sample.js",
@@ -39,7 +39,7 @@ describe("Ganache plugin with empty configs", function () {
     assert.equal(process.exitCode, 0);
   });
 
-  it("Should run Hardhat RUN task 'delayed-sample.js' using Ganache", async function () {
+  it("Should run Hardhat RUN task 'delayed-sample.js' using Anvil", async function () {
     await this.env.run("run", {
       noCompile: true,
       script: "scripts/delayed-sample.js",
@@ -49,22 +49,22 @@ describe("Ganache plugin with empty configs", function () {
   });
 });
 
-describe("Ganache plugin with custom configs", function () {
-  useEnvironment("hardhat-project-with-configs", "ganache");
+describe("Anvil plugin with custom configs", function () {
+  useEnvironment("hardhat-project-with-configs", "anvil");
 
-  it("Should add ganache network to hardhat's config", function () {
-    assert.isDefined(this.env.config.networks.ganache);
+  it("Should add anvil network to hardhat's config", function () {
+    assert.isDefined(this.env.config.networks.anvil);
   });
 
   it("Should load custom configs in hardhat's config'", function () {
-    assert.isDefined(this.env.config.networks.ganache);
+    assert.isDefined(this.env.config.networks.anvil);
     const customConfigs =
       require("./fixture-projects/hardhat-project-with-configs/hardhat.config.ts").default;
 
-    assert.isDefined(customConfigs.networks.ganache);
-    const customOptions = customConfigs.networks.ganache;
+    assert.isDefined(customConfigs.networks.anvil);
+    const customOptions = customConfigs.networks.anvil;
 
-    const options = this.env.config.networks.ganache as any;
+    const options = this.env.config.networks.anvil as any;
 
     // Iterate over all custom options and assert equality
     for (const [key, value] of Object.entries(customOptions)) {
@@ -73,16 +73,16 @@ describe("Ganache plugin with custom configs", function () {
   });
 
   it("Should expose merged (custom + defaults) configs in hardhat's config", function () {
-    assert.isDefined(this.env.config.networks.ganache);
+    assert.isDefined(this.env.config.networks.anvil);
     const customConfigs =
       require("./fixture-projects/hardhat-project-with-configs/hardhat.config.ts").default;
-    const defaultOptions = GanacheService.getDefaultOptions() as any;
+    const defaultOptions = AnvilService.getDefaultOptions() as any;
 
-    assert.isDefined(customConfigs.networks.ganache);
-    const customOptions = customConfigs.networks.ganache;
+    assert.isDefined(customConfigs.networks.anvil);
+    const customOptions = customConfigs.networks.anvil;
     const mergedOptions = { ...defaultOptions, ...customOptions };
 
-    const options = this.env.config.networks.ganache as any;
+    const options = this.env.config.networks.anvil as any;
 
     // Iterate over all custom options and assert equality
     for (const [key, value] of Object.entries(mergedOptions)) {
@@ -90,7 +90,7 @@ describe("Ganache plugin with custom configs", function () {
     }
   });
 
-  it("Should run Hardhat RUN task using Ganache with custom configs", async function () {
+  it("Should run Hardhat RUN task using Anvil with custom configs", async function () {
     await this.env.run("run", {
       noCompile: true,
       script: "scripts/custom-accounts-sample.js",

@@ -144,7 +144,7 @@ Previously, type extensions were loaded by plugin users by adding references to 
 Now, they're loaded automatically when importing the plugin in a hardhat config file. For example:
 
 ```typescript
-import "@nomiclabs/hardhat-ethers"
+import "@nomiclabs/hardhat-ethers";
 ```
 
 This is enough to import the type extensions included in the `@nomiclabs/hardhat-ethers` plugin.

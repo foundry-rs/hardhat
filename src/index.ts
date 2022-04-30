@@ -7,9 +7,9 @@ import {
   TaskArguments,
 } from "hardhat/types";
 
-const log = debug("hardhat:plugin:ganache");
+const log = debug("hardhat:plugin:anvil");
 
-import { GanacheService } from "./ganache-service";
+import { AnvilService } from "./anvil-service";
 
 task(TASK_TEST, async (_args, env, runSuper) => {
   return handlePluginTask(env, runSuper);
@@ -20,13 +20,13 @@ task(TASK_RUN, async (_args, env, runSuper) => {
 });
 
 extendConfig((resolvedConfig: any, config: any) => {
-  const defaultOptions = GanacheService.getDefaultOptions();
+  const defaultOptions = AnvilService.getDefaultOptions();
 
-  if (config.networks && config.networks.ganache) {
-    const customOptions = config.networks.ganache;
-    resolvedConfig.networks.ganache = { ...defaultOptions, ...customOptions };
+  if (config.networks && config.networks.anvil) {
+    const customOptions = config.networks.anvil;
+    resolvedConfig.networks.anvil = { ...defaultOptions, ...customOptions };
   } else {
-    resolvedConfig.networks.ganache = defaultOptions;
+    resolvedConfig.networks.anvil = defaultOptions;
   }
 });
 
@@ -34,21 +34,19 @@ async function handlePluginTask(
   env: HardhatRuntimeEnvironment,
   runSuper: RunSuperFunction<TaskArguments>
 ) {
-  if (env.network.name !== "ganache") {
+  if (env.network.name !== "anvil") {
     return runSuper();
   }
 
-  log("Starting Ganache");
+  log("Starting Anvil");
 
   const options = env.network.config;
-  const ganacheService = await GanacheService.create(options);
-
-  await ganacheService.startServer();
+  const anvilService = await AnvilService.create(options);
 
   const ret = await runSuper();
 
-  log("Stopping Ganache");
-  await ganacheService.stopServer();
+  log("Stopping Anvil");
+  anvilService.stopServer();
 
   return ret;
 }

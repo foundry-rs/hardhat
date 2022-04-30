@@ -2,7 +2,7 @@
 
 _A one line description of the plugin_
 
-[Hardhat](https://hardhat.org) plugin example. 
+[Hardhat](https://hardhat.org) plugin example.
 
 ## What
 
@@ -30,7 +30,6 @@ Or if you are using TypeScript, in your `hardhat.config.ts`:
 import "<your plugin npm package name>";
 ```
 
-
 ## Required plugins
 
 <_The list of all the required Hardhat plugins if there are any_>
@@ -39,7 +38,7 @@ import "<your plugin npm package name>";
 
 ## Tasks
 
-<_A description of each task added by this plugin. If it just overrides internal 
+<_A description of each task added by this plugin. If it just overrides internal
 tasks, this may not be needed_>
 
 This plugin creates no additional tasks.
@@ -47,6 +46,7 @@ This plugin creates no additional tasks.
 <_or_>
 
 This plugin adds the _example_ task to Hardhat:
+
 ```
 output of `npx hardhat help example`
 ```
@@ -70,8 +70,8 @@ This is an example of how to set it:
 ```js
 module.exports = {
   paths: {
-    newPath: "new-path"
-  }
+    newPath: "new-path",
+  },
 };
 ```
 

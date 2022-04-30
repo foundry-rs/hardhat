@@ -3,7 +3,7 @@
  */
 import * as t from "ts-interface-checker";
 
-export const GanacheOptionsTi = t.iface([], {
+export const AnvilOptionsTi = t.iface([], {
   url: "string",
   keepAliveTimeout: t.opt("number"),
   accountKeysPath: t.opt("string"),
@@ -17,16 +17,8 @@ export const GanacheOptionsTi = t.iface([], {
   forkBlockNumber: t.opt(t.union("string", "number")),
   gasLimit: t.opt("number"),
   gasPrice: t.opt(t.union("string", "number")),
-  hardfork: t.opt(
-    t.union(
-      t.lit("byzantium"),
-      t.lit("constantinople"),
-      t.lit("petersburg"),
-      t.lit("istanbul"),
-      t.lit("muirGlacier")
-    )
-  ),
   hdPath: t.opt("string"),
+  path: t.opt("string"),
   hostname: t.opt("string"),
   locked: t.opt("boolean"),
   logger: t.opt(
@@ -48,7 +40,7 @@ export const GanacheOptionsTi = t.iface([], {
 });
 
 const exportedTypeSuite: t.ITypeSuite = {
-  GanacheOptionsTi,
+  AnvilOptionsTi,
 };
 // eslint-disable-next-line import/no-default-export
 export default exportedTypeSuite;
