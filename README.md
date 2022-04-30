@@ -42,7 +42,7 @@ There are no additional steps you need to take for this plugin to work.
 
 ## Configuration
 
-You can set any of the [Anvil's options](https://github.com/trufflesuite/anvil-core#options) through the `anvil` network config. All of them are supported, with the exception of `accounts`.
+You can set any of the [Anvil's options](https://github.com/foundry-rs/foundry/anvil) through the `anvil` network config. All of them are supported, with the exception of `accounts`.
 
 This example sets a larger block gas limit and the default balance of Anvil's accounts.
 
