@@ -1,34 +1,36 @@
-[![npm](https://img.shields.io/npm/v/@nomiclabs/hardhat-ganache.svg)](https://www.npmjs.com/package/@nomiclabs/hardhat-ganache) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
+[![npm](https://img.shields.io/npm/v/@nomiclabs/hardhat-anvil.svg)](https://www.npmjs.com/package/@nomiclabs/hardhat-anvil) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
 
-# hardhat-ganache
+**WIP**
 
-This Hardhat plugin automatically starts and stops [Ganache](https://github.com/trufflesuite/ganache-core) when running tests or scripts.
+# hardhat-anvil
+
+This Hardhat plugin automatically starts and stops [Anvil](https://github.com/foundry-rs/foundry/anvil) when running tests or scripts.
 
 ## What
 
-This plugin creates a network named `ganache`. When this network is used, a Ganache server will be automatically started before running tests and scripts, and stopped when finished.
+This plugin creates a network named `anvil`. When this network is used, a Anvil server will be automatically started before running tests and scripts, and stopped when finished.
 
 ## Installation
 
 ```bash
-npm install --save-dev @nomiclabs/hardhat-ganache
+npm install --save-dev @foundry/hardhat-anvil
 ```
 
 And add the following statement to your `hardhat.config.js`:
 
 ```js
-require("@nomiclabs/hardhat-ganache");
+require("@nomiclabs/hardhat-anvil");
 ```
 
 Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
 
 ```js
-import "@nomiclabs/hardhat-ganache";
+import "@nomiclabs/hardhat-anvil";
 ```
 
 ## Tasks
 
-This plugin hooks into the `test` and `run` tasks to wrap them in the instantiation and termination of a `ganache-core` instance. This plugin creates no additional tasks.
+This plugin hooks into the `test` and `run` tasks to wrap them in the instantiation and termination of a `anvil-core` instance. This plugin creates no additional tasks.
 
 ## Environment extensions
 
@@ -40,15 +42,15 @@ There are no additional steps you need to take for this plugin to work.
 
 ## Configuration
 
-You can set any of the [Ganache's options](https://github.com/trufflesuite/ganache-core#options) through the `ganache` network config. All of them are supported, with the exception of `accounts`.
+You can set any of the [Anvil's options](https://github.com/trufflesuite/anvil-core#options) through the `anvil` network config. All of them are supported, with the exception of `accounts`.
 
-This example sets a larger block gas limit and the default balance of Ganache's accounts.
+This example sets a larger block gas limit and the default balance of Anvil's accounts.
 
 ```js
 module.exports = {
-  defaultNetwork: "ganache",
+  defaultNetwork: "anvil",
   networks: {
-    ganache: {
+    anvil: {
       gasLimit: 6000000000,
       defaultBalanceEther: 10,
     },
