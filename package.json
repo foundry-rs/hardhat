@@ -31,9 +31,10 @@
         "README.md"
     ],
     "dependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.0.0",
         "debug": "^4.1.1",
-        "ganache-core": "^2.7.0",
-        "ts-interface-checker": "^0.1.9"
+        "ts-interface-checker": "^0.1.9",
+        "ethers": "^5.0.0"
     },
     "devDependencies": {
         "@nomiclabs/eslint-plugin-hardhat-internal-rules": "^1.0.0",
