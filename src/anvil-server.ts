@@ -33,6 +33,6 @@ export class AnvilServer {
   }
 
   public kill() {
-    this._anvil.kill(["SIGINT"]);
+    this._anvil.kill();
   }
 }

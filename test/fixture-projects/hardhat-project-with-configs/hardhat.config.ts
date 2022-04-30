@@ -1,9 +1,9 @@
 import "../../../src/index";
 
 export default {
-  defaultNetwork: "ganache",
+  defaultNetwork: "anvil",
   networks: {
-    ganache: {
+    anvil: {
       url: "http://127.0.0.1:8555",
       gasPrice: 20000000000,
       gasLimit: 6000000000,
