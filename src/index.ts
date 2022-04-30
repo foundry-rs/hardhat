@@ -1,49 +1,54 @@
-import { extendConfig, extendEnvironment } from "hardhat/config";
-import { lazyObject } from "hardhat/plugins";
-import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
-import path from "path";
+import debug from "debug";
+import { TASK_RUN, TASK_TEST } from "hardhat/builtin-tasks/task-names";
+import { extendConfig, task } from "hardhat/config";
+import {
+  HardhatRuntimeEnvironment,
+  RunSuperFunction,
+  TaskArguments,
+} from "hardhat/types";
 
-import { ExampleHardhatRuntimeEnvironmentField } from "./ExampleHardhatRuntimeEnvironmentField";
-// This import is needed to let the TypeScript compiler know that it should include your type
-// extensions in your npm package's types file.
-import "./type-extensions";
+const log = debug("hardhat:plugin:ganache");
 
-extendConfig(
-  (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-    // We apply our default config here. Any other kind of config resolution
-    // or normalization should be placed here.
-    //
-    // `config` is the resolved config, which will be used during runtime and
-    // you should modify.
-    // `userConfig` is the config as provided by the user. You should not modify
-    // it.
-    //
-    // If you extended the `HardhatConfig` type, you need to make sure that
-    // executing this function ensures that the `config` object is in a valid
-    // state for its type, including its extensions. For example, you may
-    // need to apply a default value, like in this example.
-    const userPath = userConfig.paths?.newPath;
+import { GanacheService } from "./ganache-service";
 
-    let newPath: string;
-    if (userPath === undefined) {
-      newPath = path.join(config.paths.root, "newPath");
-    } else {
-      if (path.isAbsolute(userPath)) {
-        newPath = userPath;
-      } else {
-        // We resolve relative paths starting from the project's root.
-        // Please keep this convention to avoid confusion.
-        newPath = path.normalize(path.join(config.paths.root, userPath));
-      }
-    }
-
-    config.paths.newPath = newPath;
-  }
-);
-
-extendEnvironment((hre) => {
-  // We add a field to the Hardhat Runtime Environment here.
-  // We use lazyObject to avoid initializing things until they are actually
-  // needed.
-  hre.example = lazyObject(() => new ExampleHardhatRuntimeEnvironmentField());
+task(TASK_TEST, async (_args, env, runSuper) => {
+  return handlePluginTask(env, runSuper);
 });
+
+task(TASK_RUN, async (_args, env, runSuper) => {
+  return handlePluginTask(env, runSuper);
+});
+
+extendConfig((resolvedConfig: any, config: any) => {
+  const defaultOptions = GanacheService.getDefaultOptions();
+
+  if (config.networks && config.networks.ganache) {
+    const customOptions = config.networks.ganache;
+    resolvedConfig.networks.ganache = { ...defaultOptions, ...customOptions };
+  } else {
+    resolvedConfig.networks.ganache = defaultOptions;
+  }
+});
+
+async function handlePluginTask(
+  env: HardhatRuntimeEnvironment,
+  runSuper: RunSuperFunction<TaskArguments>
+) {
+  if (env.network.name !== "ganache") {
+    return runSuper();
+  }
+
+  log("Starting Ganache");
+
+  const options = env.network.config;
+  const ganacheService = await GanacheService.create(options);
+
+  await ganacheService.startServer();
+
+  const ret = await runSuper();
+
+  log("Stopping Ganache");
+  await ganacheService.stopServer();
+
+  return ret;
+}

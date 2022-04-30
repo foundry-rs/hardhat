@@ -4,15 +4,19 @@ import path from "path";
 
 declare module "mocha" {
   interface Context {
-    hre: HardhatRuntimeEnvironment;
+    env: HardhatRuntimeEnvironment;
   }
 }
 
-export function useEnvironment(fixtureProjectName: string) {
+export function useEnvironment(
+  fixtureProjectName: string,
+  networkName = "localhost"
+) {
   beforeEach("Loading hardhat environment", function () {
     process.chdir(path.join(__dirname, "fixture-projects", fixtureProjectName));
+    process.env.HARDHAT_NETWORK = networkName;
 
-    this.hre = require("hardhat");
+    this.env = require("hardhat");
   });
 
   afterEach("Resetting hardhat", function () {

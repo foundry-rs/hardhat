@@ -1,58 +1,59 @@
-# Hardhat TypeScript plugin boilerplate
+[![npm](https://img.shields.io/npm/v/@nomiclabs/hardhat-ganache.svg)](https://www.npmjs.com/package/@nomiclabs/hardhat-ganache) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
 
-This is a sample Hardhat plugin written in TypeScript. Creating a Hardhat plugin
-can be as easy as extracting a part of your config into a different file and
-publishing it to npm.
+# hardhat-ganache
 
-This sample project contains an example on how to do that, but also comes with
-many more features:
+This Hardhat plugin automatically starts and stops [Ganache](https://github.com/trufflesuite/ganache-core) when running tests or scripts.
 
-- A mocha test suite ready to use
-- TravisCI already setup
-- A package.json with scripts and publishing info
-- Examples on how to do different things
+## What
+
+This plugin creates a network named `ganache`. When this network is used, a Ganache server will be automatically started before running tests and scripts, and stopped when finished.
 
 ## Installation
 
-To start working on your project, just run
-
 ```bash
-npm install
+npm install --save-dev @nomiclabs/hardhat-ganache
 ```
 
-## Plugin development
+And add the following statement to your `hardhat.config.js`:
 
-Make sure to read our [Plugin Development Guide](https://hardhat.org/advanced/building-plugins.html) to learn how to build a plugin.
+```js
+require("@nomiclabs/hardhat-ganache");
+```
 
-## Testing
+Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
 
-Running `npm run test` will run every test located in the `test/` folder. They
-use [mocha](https://mochajs.org) and [chai](https://www.chaijs.com/),
-but you can customize them.
+```js
+import "@nomiclabs/hardhat-ganache";
+```
 
-We recommend creating unit tests for your own modules, and integration tests for
-the interaction of the plugin with Hardhat and its dependencies.
+## Tasks
 
-## Linting and autoformat
+This plugin hooks into the `test` and `run` tasks to wrap them in the instantiation and termination of a `ganache-core` instance. This plugin creates no additional tasks.
 
-All of Hardhat projects use [prettier](https://prettier.io/) and
-[tslint](https://palantir.github.io/tslint/).
+## Environment extensions
 
-You can check if your code style is correct by running `npm run lint`, and fix
-it with `npm run lint:fix`.
+This plugin doesn't extend the Hardhat Runtime Environment.
 
-## Building the project
+## Usage
 
-Just run `npm run build` ️👷
+There are no additional steps you need to take for this plugin to work.
 
-## README file
+## Configuration
 
-This README describes this boilerplate project, but won't be very useful to your
-plugin users.
+You can set any of the [Ganache's options](https://github.com/trufflesuite/ganache-core#options) through the `ganache` network config. All of them are supported, with the exception of `accounts`.
 
-Take a look at `README-TEMPLATE.md` for an example of what a Hardhat plugin's
-README should look like.
+This example sets a larger block gas limit and the default balance of Ganache's accounts.
 
-## Migrating from Buidler?
+```js
+module.exports = {
+  defaultNetwork: "ganache",
+  networks: {
+    ganache: {
+      gasLimit: 6000000000,
+      defaultBalanceEther: 10,
+    },
+  },
+};
+```
 
-Take a look at [the migration guide](MIGRATION.md)!
+Note: The `accounts` option is not currently supported.
