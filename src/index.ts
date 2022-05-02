@@ -7,6 +7,10 @@ import {
   TaskArguments,
 } from "hardhat/types";
 import { lazyObject } from "hardhat/plugins";
+import { getDeployMockContract, hardhatDeployContract } from "./deploy";
+import { getLinkFunction } from "./link";
+import { initializeWaffleMatchers } from "./matchers";
+import "./type-extensions";
 
 const log = debug("hardhat:plugin:anvil");
 
@@ -18,14 +22,29 @@ extendEnvironment((hre) => {
   // it this is currently necessary because the waffle plugin is bound to a network
   // with the name `hardhat`
   (hre as any).waffle = lazyObject(() => {
-    const hardhatAnvilProvider = new AnvilProviderAdapter(
+    const { WaffleMockProviderAdapter } = require("./waffle-provider-adapter");
+
+    const { hardhatCreateFixtureLoader } = require("./fixtures");
+
+    const anvilWaffleProcider = new AnvilProviderAdapter(
       hre.network
     ) as any;
 
     return {
-      provider: hardhatAnvilProvider,
+      provider: anvilWaffleProcider,
+      deployContract: hardhatDeployContract.bind(undefined, hre),
+      deployMockContract: getDeployMockContract(),
+       solidity: require("./waffle-chai").waffleChai,
+      createFixtureLoader: hardhatCreateFixtureLoader.bind(
+        undefined,
+        anvilWaffleProcider
+      ),
+      loadFixture: hardhatCreateFixtureLoader(anvilWaffleProcider),
+      link: getLinkFunction(),
     };
   });
+
+  initializeWaffleMatchers(hre.config.paths.root);
 });
 
 task(TASK_TEST, async (_args, env, runSuper) => {
@@ -45,6 +64,14 @@ extendConfig((resolvedConfig: any, config: any) => {
   } else {
     resolvedConfig.networks.anvil = defaultOptions;
   }
+  // make compatible with the hardhat accounts object used by the waffleprovider
+  resolvedConfig.networks.anvil.accounts = {
+    mnemonic:  resolvedConfig.networks.anvil.mnemonic,
+    path:  resolvedConfig.networks.anvil.hdPath,
+    initialIndex: 0,
+    count: resolvedConfig.networks.anvil.totalAccounts,
+    passphrase: ""
+  }
 });
 
 async function handlePluginTask(
@@ -54,13 +81,20 @@ async function handlePluginTask(
   if (env.network.name !== "anvil") {
     return runSuper();
   }
-
   log("Starting Anvil");
 
   const options = env.network.config;
   const anvilService = await AnvilService.create(options);
 
-  const ret = await runSuper();
+  let ret;
+  try {
+    ret = await runSuper();
+  } catch (error) {
+    log("Stopping Anvil after error");
+    anvilService.stopServer();
+    throw error;
+  }
+ 
 
   log("Stopping Anvil");
   anvilService.stopServer();

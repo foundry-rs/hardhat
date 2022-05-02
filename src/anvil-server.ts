@@ -29,6 +29,10 @@ export class AnvilServer {
       log(`anvil child process exited with code ${code}`);
     });
 
+    process.on('exit', function() {
+      anvil.kill();
+    });
+
     return new AnvilServer(options, anvil);
   }
 

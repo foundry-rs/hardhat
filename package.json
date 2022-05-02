@@ -32,12 +32,16 @@
     ],
     "dependencies": {
         "@nomiclabs/hardhat-ethers": "^2.0.0",
+        "@nomiclabs/hardhat-waffle": "^2.0.0",
         "debug": "^4.1.1",
         "ts-interface-checker": "^0.1.9",
-        "ethers": "^5.0.0"
+        "ethers": "^5.0.0",
+        "@types/sinon-chai": "^3.2.3",
+        "@types/web3": "1.0.19"
     },
     "devDependencies": {
         "@nomiclabs/eslint-plugin-hardhat-internal-rules": "^1.0.0",
+        "@nomiclabs/hardhat-ethers": "^2.0.0",
         "@types/chai": "^4.2.0",
         "@types/debug": "^4.1.4",
         "@types/fs-extra": "^5.1.0",
@@ -50,6 +54,7 @@
         "eslint-config-prettier": "8.3.0",
         "eslint-plugin-import": "2.24.1",
         "eslint-plugin-prettier": "3.4.0",
+        "ethereum-waffle": "^3.2.0",
         "hardhat": "^2.0.0",
         "mocha": "^9.2.0",
         "prettier": "2.4.1",
@@ -59,6 +64,9 @@
         "typescript": "~4.5.2"
     },
     "peerDependencies": {
+        "@nomiclabs/hardhat-ethers": "^2.0.0",
+        "ethereum-waffle": "^3.2.0",
+        "ethers": "^5.0.0",
         "hardhat": "^2.0.0"
     }
 }

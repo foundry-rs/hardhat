@@ -3,6 +3,7 @@ import { normalizeHardhatNetworkAccountsConfig } from "hardhat/internal/core/pro
 import { HardhatNetworkConfig, Network } from "hardhat/types";
 import { NomicLabsHardhatPluginError } from "hardhat/plugins";
 import { pluginName } from "./constants";
+// import  "@nomiclabs/hardhat-waffle/src/type-extensions";
 
 // This class is an extension of hardhat-ethers' wrapper.
 export class AnvilProviderAdapter extends providers.JsonRpcProvider {
@@ -19,7 +20,6 @@ export class AnvilProviderAdapter extends providers.JsonRpcProvider {
 You can use \`await hre.ethers.getSigners()\` in other networks.`
       );
     }
-
     const networkConfig = this._hardhatNetwork.config as HardhatNetworkConfig;
     return normalizeHardhatNetworkAccountsConfig(networkConfig.accounts).map(
       (acc) => new Wallet(acc.privateKey, this)

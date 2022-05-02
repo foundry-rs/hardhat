@@ -1,14 +1,12 @@
 import debug from "debug";
 import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
 import { URL } from "url";
-
 import { AnvilServer } from "./anvil-server";
 
 const log = debug("hardhat:plugin:anvil-service");
 
 export declare interface AnvilOptions {
   url: string;
-  keepAliveTimeout?: number;
   accountKeysPath?: string; // Translates to: account_keys_path
   accounts?: object[];
   allowUnlimitedContractSize?: boolean;
@@ -20,13 +18,13 @@ export declare interface AnvilOptions {
   gasLimit?: number;
   gasPrice?: string | number;
   hdPath?: string; // Translates to: hd_path
+  mnemonic?: string;
   path?: string; // path to the anvil exec
   hostname?: string;
   locked?: boolean;
   logger?: {
     log(msg: string): void;
   };
-  mnemonic?: string;
   networkId?: number;
   port?: number;
   seed?: any;
@@ -54,7 +52,7 @@ export class AnvilService {
       allowUnlimitedContractSize: false,
       locked: false,
       hdPath: "m/44'/60'/0'/0/",
-      keepAliveTimeout: 5000,
+      mnemonic: "test test test test test test test test test test test junk"
     };
   }
 
