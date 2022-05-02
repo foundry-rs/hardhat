@@ -51,6 +51,8 @@ module.exports = {
   defaultNetwork: "anvil",
   networks: {
     anvil: {
+      url: "http://127.0.0.1:8545/",
+      launch: true, // if set to false, this will assume anvil is already running
       gasLimit: 6000000000,
       defaultBalanceEther: 10,
     },
