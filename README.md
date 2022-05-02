@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/@nomiclabs/hardhat-anvil.svg)](https://www.npmjs.com/package/@nomiclabs/hardhat-anvil) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
+[![npm](https://img.shields.io/npm/v/@foundry/hardhat-anvil.svg)](https://www.npmjs.com/package/@foundry/hardhat-anvil) [![hardhat](https://hardhat.org/buidler-plugin-badge.svg?1)](https://hardhat.org)
 
 **WIP**
 
@@ -19,13 +19,13 @@ npm install --save-dev @foundry/hardhat-anvil
 And add the following statement to your `hardhat.config.js`:
 
 ```js
-require("@nomiclabs/hardhat-anvil");
+require("@foundry/hardhat-anvil");
 ```
 
 Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
 
 ```js
-import "@nomiclabs/hardhat-anvil";
+import "@foundry/hardhat-anvil";
 ```
 
 ## Tasks
