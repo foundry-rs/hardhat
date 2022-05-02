@@ -15,31 +15,30 @@ import "./type-extensions";
 const log = debug("hardhat:plugin:anvil");
 
 import { AnvilService } from "./anvil-service";
-import { AnvilProviderAdapter } from "./anvil-provider-adapter";
 
 extendEnvironment((hre) => {
   // This mimics the `hardhat-waffle` plugin so that it works as replacement for 
   // it this is currently necessary because the waffle plugin is bound to a network
   // with the name `hardhat`
   (hre as any).waffle = lazyObject(() => {
-    const { WaffleMockProviderAdapter } = require("./waffle-provider-adapter");
+    const { AnvilProviderAdapter } = require("./anvil-provider-adapter");
 
     const { hardhatCreateFixtureLoader } = require("./fixtures");
 
-    const anvilWaffleProcider = new AnvilProviderAdapter(
+    const anvilWaffleProvider = new AnvilProviderAdapter(
       hre.network
     ) as any;
 
     return {
-      provider: anvilWaffleProcider,
+      provider: anvilWaffleProvider,
       deployContract: hardhatDeployContract.bind(undefined, hre),
       deployMockContract: getDeployMockContract(),
        solidity: require("./waffle-chai").waffleChai,
       createFixtureLoader: hardhatCreateFixtureLoader.bind(
         undefined,
-        anvilWaffleProcider
+        anvilWaffleProvider
       ),
-      loadFixture: hardhatCreateFixtureLoader(anvilWaffleProcider),
+      loadFixture: hardhatCreateFixtureLoader(anvilWaffleProvider),
       link: getLinkFunction(),
     };
   });

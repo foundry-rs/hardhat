@@ -1,1 +1,1 @@
-export const pluginName = "@foundry/hardhat-anil";
+export const pluginName = "@foundry/hardhat-anvil";

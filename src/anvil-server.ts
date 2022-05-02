@@ -13,30 +13,34 @@ export class AnvilServer {
 
   public static launch(options: any): AnvilServer {
     log("Launching anvil");
-    const anvilPath = options.path ?? "anvil";
-    // TODO transform options to args
-    const anvil = spawn(anvilPath);
+    let anvil: any;
 
-    anvil.stdout.on("data", (data) => {
-      console.log(`${data}`);
-    });
-
-    anvil.stderr.on("data", (data) => {
-      console.error(`${data}`);
-    });
-
-    anvil.on("close", (code) => {
-      log(`anvil child process exited with code ${code}`);
-    });
-
-    process.on('exit', function() {
-      anvil.kill();
-    });
+    if (options.launch) {
+      const anvilPath = options.path ?? "anvil";
+      // TODO transform options to args
+      anvil = spawn(anvilPath);
+  
+      anvil.stdout.on("data", (data: any) => {
+        console.log(`${data}`);
+      });
+  
+      anvil.stderr.on("data", (data: any) => {
+        console.error(`${data}`);
+      });
+  
+      anvil.on("close", (code: any) => {
+        log(`anvil child process exited with code ${code}`);
+      });
+  
+      process.on('exit', function() {
+        anvil.kill();
+      });
+    }
 
     return new AnvilServer(options, anvil);
   }
 
   public kill() {
-    this._anvil.kill();
+    this._anvil?.kill();
   }
 }

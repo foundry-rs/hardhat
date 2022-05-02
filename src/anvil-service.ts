@@ -12,6 +12,7 @@ export declare interface AnvilOptions {
   allowUnlimitedContractSize?: boolean;
   blockTime?: number;
   debug?: boolean;
+  launch?: boolean; // whether to launch the server at all
   defaultBalanceEther?: number; // Translates to: default_balance_ether
   fork?: string | object;
   forkBlockNumber?: string | number; // Translates to: fork_block_number
@@ -52,7 +53,8 @@ export class AnvilService {
       allowUnlimitedContractSize: false,
       locked: false,
       hdPath: "m/44'/60'/0'/0/",
-      mnemonic: "test test test test test test test test test test test junk"
+      mnemonic: "test test test test test test test test test test test junk",
+      launch: true
     };
   }
 
