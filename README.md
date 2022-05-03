@@ -34,11 +34,17 @@ This plugin hooks into the `test` and `run` tasks to wrap them in the instantiat
 
 ## Environment extensions
 
-This plugin doesn't extend the Hardhat Runtime Environment.
+This plugin adds a `waffle` object to the Hardhat Runtime Environment. This object has all the Waffle functionality, already adapted to work with Hardhat.
+
+This is a modified, `anvil` compatible version of [`@nomiclabs/hardhat-waffle`](https://github.com/NomicFoundation/hardhat/tree/master/packages/hardhat-waffle).
 
 ## Usage
 
-There are no additional steps you need to take for this plugin to work.
+Once `anvil` is installed you can simply run it and configure it via the CLI.
+
+Once installed, you can build your tests almost like in Waffle.
+
+Instead of importing things from `ethereum-waffle`, you access them from the `waffle` property of the Hardhat Runtime Environment.
 
 ## Configuration
 
@@ -49,15 +55,12 @@ This example sets a larger block gas limit and the default balance of Anvil's ac
 ```js
 module.exports = {
   defaultNetwork: "anvil",
-  networks: {
     anvil: {
       url: "http://127.0.0.1:8545/",
       launch: true, // if set to false, this will assume anvil is already running
-      gasLimit: 6000000000,
-      defaultBalanceEther: 10,
     },
   },
 };
 ```
 
-Note: The `accounts` option is not currently supported.
+Note: currently only default settings are used if `launch: false`. All other configs are currently ignored
