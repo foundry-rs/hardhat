@@ -64,3 +64,8 @@ module.exports = {
 ```
 
 Note: currently only default settings are used if `launch: false`. All other configs are currently ignored
+
+## LICENSE
+
+* MIT license ([LICENSE](LICENSE) or
+  https://opensource.org/licenses/MIT)
