@@ -1,1 +1,0 @@
-{"version":3,"file":"anvil-server.d.ts","sourceRoot":"","sources":["../../src/anvil-server.ts"],"names":[],"mappings":"AAIA,qBAAa,WAAW;IACtB,OAAO,CAAC,QAAQ,CAAC,MAAM,CAAM;IAC7B,OAAO,CAAC,QAAQ,CAAC,QAAQ,CAAM;IAE/B,OAAO;WAKO,MAAM,CAAC,OAAO,EAAE,GAAG,GAAG,WAAW;IA6BxC,IAAI;CAGZ"}
