@@ -5,8 +5,8 @@
     "homepage": "https://github.com/foundry-rs/hardhat",
     "repository": "github:foundry-rs/hardhat",
     "license": "MIT",
-    "main": "dist/src/index.js",
-    "types": "dist/src/index.d.ts",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "keywords": [
         "ethereum",
         "smart-contracts",
@@ -14,7 +14,11 @@
         "foundry",
         "foundryup"
     ],
+    "bin": {
+      "foundryup": "./dist/foundryup.js"
+    },
     "scripts": {
+        "postinstall": "./dist/foundryup.js",
         "lint": "yarn prettier --check && yarn eslint",
         "lint:fix": "yarn prettier --write && yarn eslint --fix",
         "eslint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
@@ -24,7 +28,7 @@
         "clean": "rimraf dist"
     },
     "files": [
-        "dist/src/",
+        "dist/",
         "src/",
         "LICENSE",
         "README.md"
