@@ -7,7 +7,9 @@ This repo contains [hardhat](https://github.com/NomicFoundation/hardhat) plugins
 
 See in each plugin
 
-- [Anvil](./packages/hardhat-anvil/README.md)
+- [anvil](./packages/hardhat-anvil/README.md)
+- [forge](./packages/hardhat-forge/README.md)
+- [foundryup](./packages/easy-foundryup/README.md)
 
 ## Documentation
 
