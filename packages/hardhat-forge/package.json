@@ -1,7 +1,7 @@
 {
-    "name": "@foundry-rs/hardhat-anvil",
+    "name": "@foundry-rs/hardhat-forge",
     "version": "0.1.0",
-    "description": "Hardhat plugin for managing Anvil",
+    "description": "Hardhat plugin for foundry's forge",
     "homepage": "https://github.com/foundry-rs/hardhat",
     "repository": "github:foundry-rs/hardhat",
     "license": "MIT",
@@ -12,9 +12,8 @@
         "smart-contracts",
         "hardhat",
         "hardhat-plugin",
-        "anvil",
-        "foundry",
-        "testing-network"
+        "forge",
+        "foundry"
     ],
     "scripts": {
         "lint": "yarn prettier --check && yarn eslint",
