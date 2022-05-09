@@ -1,6 +1,6 @@
 # hardhat-anvil
 
-This Hardhat plugin automatically starts and stops [Anvil](https://github.com/foundry-rs/foundry/anvil) when running tests or scripts.
+This Hardhat plugin automatically starts and stops [Anvil](https://github.com/foundry-rs/foundry/tree/master/anvil) when running tests or scripts.
 
 ## What
 
@@ -15,19 +15,19 @@ See [anvil installation](https://github.com/foundry-rs/foundry/tree/master/anvil
 ### Plugin
 
 ```bash
-npm install --save-dev @foundry/hardhat-anvil
+npm install --save-dev @foundry-rs/hardhat-anvil
 ```
 
 And add the following statement to your `hardhat.config.js`:
 
 ```js
-require("@foundry/hardhat-anvil");
+require("@foundry-rs/hardhat-anvil");
 ```
 
 Or, if you are using TypeScript, add this to your `hardhat.config.ts`:
 
 ```js
-import "@foundry/hardhat-anvil";
+import "@foundry-rs/hardhat-anvil";
 ```
 
 ## Tasks
