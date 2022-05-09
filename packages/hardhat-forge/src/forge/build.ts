@@ -1,5 +1,5 @@
 // bindings for forge build
-
+import { spawn as spawn } from "child_process";
 import { compilerArgs, CompilerArgs } from "./compiler";
 import { ProjectPathArgs, projectPathsArgs } from "./projectpaths";
 
@@ -18,11 +18,27 @@ export declare interface ForgeBuildArgs extends CompilerArgs, ProjectPathArgs {
   viaIR?: boolean;
 }
 
+/** *
+ * Invokes `forge build`
+ * @param opts The arguments to pass to `forge build`
+ */
+export async function spawnBuild(opts: ForgeBuildArgs): Promise<boolean> {
+  const args = ["build", ...buildArgs(opts)];
+  return new Promise((resolve) => {
+    const process = spawn("forge", args, {
+      stdio: "inherit",
+    });
+    process.on("exit", (code) => {
+      resolve(code === 0);
+    });
+  });
+}
+
 /**
  * Converts the `args` object into a list of arguments for the `forge build` command
  * @param args
  */
-export function cliArgs(args: ForgeBuildArgs): string[] {
+export function buildArgs(args: ForgeBuildArgs): string[] {
   const allArgs: string[] = [];
   if (args.force === true) {
     allArgs.push("--force");

@@ -1,13 +1,17 @@
-import { extendConfig, extendEnvironment } from "hardhat/config";
-import { lazyObject } from "hardhat/plugins";
-import { HardhatConfig, HardhatUserConfig } from "hardhat/types";
-import path from "path";
-
-import { subtask, task } from "hardhat/config";
+import { task } from "hardhat/config";
+import { ForgeBuildArgs, spawnBuild } from "./forge";
 
 task("build")
   .setDescription("Compiles the entire project with forge")
   .addFlag("force", "Clear the cache and artifacts folder and recompile.")
-  .setAction(async function (args, hre, runSuper) {
-    return null;
+  .addFlag(
+    "offline",
+    "Do not access the network. Missing solc versions will not be installed."
+  )
+  .addFlag(
+    "viaIR",
+    "Use the Yul intermediate representation compilation pipeline."
+  )
+  .setAction(async (args: ForgeBuildArgs, {}) => {
+    await spawnBuild(args);
   });
