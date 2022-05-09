@@ -16,8 +16,8 @@
         "wsrun": "^5.2.2"
     },
     "scripts": {
-        "build": "tsc --build packages/hardhat-anvil",
-        "watch": "tsc --build --watch packages/hardhat-anvil",
+        "build": "tsc --build packages/hardhat-anvil packages/easy-foundryup",
+        "watch": "tsc --build --watch packages/hardhat-anvil packages/easy-foundryup",
         "clean": "wsrun --exclude-missing clean",
         "test": "node scripts/run-tests.js",
         "lint": "wsrun --exclude-missing --stages lint && yarn prettier --check",
