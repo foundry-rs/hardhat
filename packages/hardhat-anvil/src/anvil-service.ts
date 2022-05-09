@@ -11,7 +11,6 @@ export declare interface AnvilOptions {
   accounts?: object[];
   allowUnlimitedContractSize?: boolean;
   blockTime?: number;
-  debug?: boolean;
   launch?: boolean; // whether to launch the server at all
   defaultBalanceEther?: number; // Translates to: default_balance_ether
   fork?: string | object;
@@ -21,23 +20,21 @@ export declare interface AnvilOptions {
   hdPath?: string; // Translates to: hd_path
   mnemonic?: string;
   path?: string; // path to the anvil exec
-  hostname?: string;
   locked?: boolean;
+  noStorageCaching?: boolean;
+  hardfork?: string;
   logger?: {
     log(msg: string): void;
   };
-  networkId?: number;
+  chainId?: number;
   port?: number;
-  seed?: any;
-  time?: any; // Date
   totalAccounts?: number; // Translates to: total_accounts
-  unlockedAccounts?: string[]; // Translates to: unlocked_accounts
-  verbose?: boolean;
+  silent?: boolean;
   vmErrorsOnRPCResponse?: boolean;
   ws?: boolean;
 }
 
-const DEFAULT_PORT = 7545;
+const DEFAULT_PORT = 8545;
 
 export class AnvilService {
   public static error?: Error;
@@ -48,13 +45,7 @@ export class AnvilService {
       url: `http://127.0.0.1:${DEFAULT_PORT}`,
       gasPrice: 20000000000,
       gasLimit: 6721975,
-      defaultBalanceEther: 100,
-      totalAccounts: 10,
-      allowUnlimitedContractSize: false,
-      locked: false,
-      hdPath: "m/44'/60'/0'/0/",
-      mnemonic: "test test test test test test test test test test test junk",
-      launch: true
+      launch: true,
     };
   }
 
@@ -64,10 +55,6 @@ export class AnvilService {
     const { createCheckers } = await import("ts-interface-checker");
     const { AnvilOptionsTi } = createCheckers(optionsSchema);
     AnvilService.optionValidator = AnvilOptionsTi;
-
-    // TODO validate options
-    //  // Validate and Transform received options before initialize server
-    //  this._options = this._validateAndTransformOptions(options);
 
     const Anvil = AnvilServer.launch(options);
 
