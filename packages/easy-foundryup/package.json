@@ -1,5 +1,5 @@
 {
-    "name": "@foundry/easy-foundryup",
+    "name": "@foundry-rs/easy-foundryup",
     "version": "0.1.0",
     "description": "Install and manage foundryup",
     "homepage": "https://github.com/foundry-rs/hardhat",
@@ -14,11 +14,8 @@
         "foundry",
         "foundryup"
     ],
-    "bin": {
-      "foundryup": "./dist/foundryup.js"
-    },
     "scripts": {
-        "postinstall": "./dist/foundryup.js",
+        "postinstall": "node ./dist/foundryup.js",
         "lint": "yarn prettier --check && yarn eslint",
         "lint:fix": "yarn prettier --write && yarn eslint --fix",
         "eslint": "eslint 'src/**/*.ts' 'test/**/*.ts'",

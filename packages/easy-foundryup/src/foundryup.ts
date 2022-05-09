@@ -1,12 +1,13 @@
 #!/usr/bin/env node
+"use strict";
 
-import { run } from "./binary";
+import { run } from "./index";
 
 void (async () => {
   const success = await run();
   if (success) {
-    console.log("setup foundryup");
+    console.log("successfully setup foundryup");
   } else {
-    console.log("Failed to setup foundryup");
+    console.log("failed to setup foundryup");
   }
 })();
