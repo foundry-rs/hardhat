@@ -1,1 +1,1 @@
-export * from "./forge";
+export * as forge from "./forge";
