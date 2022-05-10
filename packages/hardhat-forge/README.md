@@ -28,15 +28,13 @@ import "@foundry-rs/hardhat-forge";
 
 This plugin provides following tasks:
 
-* "forge::build" for "`forge build`
-* "forge::test" for "`forge test`
+- "forge::build" for "`forge build`
+- "forge::test" for "`forge test`
 
 ## Configuration
 
 See [Foundry](https://github.com/foundry-rs/foundry).
 
-
 ## LICENSE
 
-* MIT license ([LICENSE](LICENSE) or
-  https://opensource.org/licenses/MIT)
+- MIT license ([LICENSE](LICENSE) or https://opensource.org/licenses/MIT)

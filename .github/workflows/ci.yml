@@ -1,0 +1,71 @@
+name: Lint
+
+on:
+  push:
+    branches: [master, pre-release-testing-branch]
+  pull_request:
+    branches:
+      - "*"
+
+env:
+  # Needed to use the ::add-path command
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  # Needed to make foundryup not complain
+  SHELL: /bin/bash
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint (JavaScript)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: yarn
+      - name: Set PATH
+        run: echo ::add-path::$HOME/.foundry/bin
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Lint
+        run: yarn lint
+  prettier:
+    name: Lint (.md, .yml)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: yarn
+      - name: Set PATH
+        run: echo ::add-path::$HOME/.foundry/bin
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Lint
+        run: yarn prettier
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: yarn
+      - name: Set PATH
+        run: echo ::add-path::$HOME/.foundry/bin
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Test
+        run: yarn test

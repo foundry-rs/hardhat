@@ -1,4 +1,3 @@
-
 ---
 
 This repo contains [hardhat](https://github.com/NomicFoundation/hardhat) plugins to use [foundry](https://github.com/foundry-rs/foundry/) tools in hardhat environments.

@@ -6,9 +6,9 @@ const log = debug("hardhat:plugin:anvil-service::spawn");
 
 export class AnvilServer {
   private readonly _anvil: any;
-  private readonly _options: any;
+  private readonly _options: AnvilOptions;
 
-  private constructor(options: any, anvil: any) {
+  private constructor(options: AnvilOptions, anvil: any) {
     this._options = options;
     this._anvil = anvil;
   }
