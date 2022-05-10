@@ -69,8 +69,6 @@ module.exports = {
 };
 ```
 
-
 ## LICENSE
 
-* MIT license ([LICENSE](LICENSE) or
-  https://opensource.org/licenses/MIT)
+- MIT license ([LICENSE](LICENSE) or https://opensource.org/licenses/MIT)

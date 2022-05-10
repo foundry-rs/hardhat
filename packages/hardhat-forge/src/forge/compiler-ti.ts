@@ -15,4 +15,6 @@ export const CompilerArgs = t.iface([], {
 const exportedTypeSuite: t.ITypeSuite = {
   CompilerArgs,
 };
+
+// eslint-disable-next-line import/no-default-export
 export default exportedTypeSuite;
