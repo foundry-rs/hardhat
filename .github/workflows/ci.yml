@@ -22,7 +22,7 @@ jobs:
           node-version: 12
           cache: yarn
       - name: Install
-        run: yarn --frozen-lockfile
+        run: yarn --frozen-lockfile --ignore-scripts
       - name: Build
         run: yarn build
       - name: lint
@@ -37,7 +37,7 @@ jobs:
           node-version: 12
           cache: yarn
       - name: Install
-        run: yarn --frozen-lockfile
+        run: yarn --frozen-lockfile --ignore-scripts
       - name: lint
         run: yarn prettier
   test:
@@ -50,6 +50,6 @@ jobs:
           node-version: 12
           cache: yarn
       - name: Install
-        run: yarn --frozen-lockfile
+        run: yarn --frozen-lockfile --ignore-scripts
       - name: lint
         run: yarn test
