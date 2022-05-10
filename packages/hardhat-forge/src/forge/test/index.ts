@@ -1,18 +1,31 @@
-import { task } from "hardhat/config";
+import { task, types } from "hardhat/config";
 import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
 import camelcaseKeys = require("camelcase-keys");
-import { registerCompilerArgs, registerProjectPathArgs } from "../common";
+import { registerEnvArgs, registerEvmArgs } from "../common";
 import { spawnTest, ForgeTestArgs } from "./test";
 
-registerProjectPathArgs(registerCompilerArgs(task("test")))
-  .setDescription("Compiles the entire project with forge")
-  .addFlag(
-    "offline",
-    "Do not access the network. Missing solc versions will not be installed."
+registerEvmArgs(registerEnvArgs(task("test")))
+  .setDescription("Runs all the test in the project")
+  .addFlag("json", "Output test results in JSON format.")
+  .addFlag("gasReport", "Print a gas report.")
+  .addFlag("allowFailure", "Exit with code 0 even if a test fails.")
+  .addOptionalParam(
+    "matchTest",
+    "Only run test functions matching the specified regex pattern.",
+    undefined,
+    types.string
   )
-  .addFlag(
-    "viaIr",
-    "Use the Yul intermediate representation compilation pipeline."
+  .addOptionalParam(
+    "matchContract",
+    "Only run tests in contracts matching the specified regex pattern.",
+    undefined,
+    types.string
+  )
+  .addOptionalParam(
+    "etherscanApiKey",
+    "Etherscan API to use",
+    undefined,
+    types.string
   )
   .setAction(async (args, {}) => {
     const buildArgs = await getCheckedArgs(args);

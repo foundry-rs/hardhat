@@ -4,7 +4,7 @@
 import * as t from "ts-interface-checker";
 // tslint:disable:object-literal-key-quotes
 
-export const ForgeEvmArgsTi = t.iface(["ForgeEnvArgs"], {
+export const ForgeEvmArgsTi = t.iface([], {
   forkUrl: t.opt("string"),
   forkBlockNumber: t.opt("number"),
   noStorageCaching: t.opt("boolean"),
