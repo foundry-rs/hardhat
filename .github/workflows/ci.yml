@@ -21,6 +21,8 @@ jobs:
         with:
           node-version: 12
           cache: yarn
+      - name: Set PATH
+        run: echo ::add-path::$HOME/.foundry/bin
       - name: Install
         run: yarn --frozen-lockfile
       - name: Build
@@ -36,6 +38,8 @@ jobs:
         with:
           node-version: 12
           cache: yarn
+      - name: Set PATH
+        run: echo ::add-path::$HOME/.foundry/bin
       - name: Install
         run: yarn --frozen-lockfile
       - name: Build
@@ -51,6 +55,8 @@ jobs:
         with:
           node-version: 12
           cache: yarn
+      - name: Set PATH
+        run: echo ::add-path::$HOME/.foundry/bin
       - name: Install
         run: yarn --frozen-lockfile
       - name: Build
