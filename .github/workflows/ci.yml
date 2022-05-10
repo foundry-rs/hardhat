@@ -33,7 +33,7 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Build
         run: yarn build
-      - name: lint
+      - name: Lint
         run: yarn lint
   prettier:
     name: Lint (.md, .yml)
@@ -50,7 +50,7 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Build
         run: yarn build
-      - name: lint
+      - name: Lint
         run: yarn prettier
   test:
     name: Test
@@ -67,5 +67,5 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Build
         run: yarn build
-      - name: lint
+      - name: Test
         run: yarn test
