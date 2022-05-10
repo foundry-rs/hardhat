@@ -1,29 +1,23 @@
-// bindings for forge build
+// bindings for forge test
 import { spawn as spawn } from "child_process";
-import { compilerArgs, CompilerArgs } from "./compiler";
-import { ProjectPathArgs, projectPathsArgs } from "./projectpaths";
+import { buildArgs, ForgeBuildArgs } from "../build/build";
+import { ForgeEvmArgs } from "../common";
 
 /**
- * Mirrors the `forge build` arguments
+ * Mirrors the `forge test` arguments
  */
-export declare interface ForgeBuildArgs extends CompilerArgs, ProjectPathArgs {
-  force?: boolean;
-  names?: boolean;
-  sizes?: boolean;
-  libraries?: string[];
-  ignoredErrorCodes?: number[];
-  noAutodetect?: boolean;
-  useSolc?: string;
-  offline?: boolean;
-  viaIR?: boolean;
+export interface ForgeTestArgs extends ForgeBuildArgs, ForgeEvmArgs {
+  json?: boolean;
+  gasReport?: boolean;
+  allowFailure?: boolean;
 }
 
 /** *
  * Invokes `forge build`
  * @param opts The arguments to pass to `forge build`
  */
-export async function spawnBuild(opts: ForgeBuildArgs): Promise<boolean> {
-  const args = ["build", ...buildArgs(opts)];
+export async function spawnTest(opts: ForgeTestArgs): Promise<boolean> {
+  const args = ["test", ...testArgs(opts)];
   return new Promise((resolve) => {
     const process = spawn("forge", args, {
       stdio: "inherit",
@@ -35,10 +29,10 @@ export async function spawnBuild(opts: ForgeBuildArgs): Promise<boolean> {
 }
 
 /**
- * Converts the `args` object into a list of arguments for the `forge build` command
+ * Converts the `args` object into a list of arguments for the `forge test` command
  * @param args
  */
-export function buildArgs(args: ForgeBuildArgs): string[] {
+export function testArgs(args: ForgeTestArgs): string[] {
   const allArgs: string[] = [];
   if (args.force === true) {
     allArgs.push("--force");
@@ -66,12 +60,11 @@ export function buildArgs(args: ForgeBuildArgs): string[] {
   if (args.offline === true) {
     allArgs.push("--offline");
   }
-  if (args.viaIR === true) {
+  if (args.viaIr === true) {
     allArgs.push("--via-ir");
   }
 
-  allArgs.push(...compilerArgs(args));
-  allArgs.push(...projectPathsArgs(args));
+  allArgs.push(...buildArgs(args));
 
   return allArgs;
 }

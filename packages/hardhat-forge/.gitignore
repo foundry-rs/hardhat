@@ -4,3 +4,4 @@ dist/
 build/
 artifacts/
 cache/
+!src/forge/build

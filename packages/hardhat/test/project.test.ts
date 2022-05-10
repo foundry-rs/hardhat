@@ -9,7 +9,7 @@ describe("Integration tests", function () {
     useEnvironment("hardhat-project");
 
     it("Should build", async function () {
-      await this.hre.run("compile");
+      await this.hre.run("compile", {});
     });
   });
 });

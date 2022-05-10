@@ -4,7 +4,7 @@
 import * as t from "ts-interface-checker";
 // tslint:disable:object-literal-key-quotes
 
-export const ForgeBuildArgs = t.iface(["CompilerArgs", "ProjectPathArgs"], {
+export const ForgeBuildArgsTi = t.iface(["CompilerArgs", "ProjectPathArgs"], {
   force: t.opt("boolean"),
   names: t.opt("boolean"),
   sizes: t.opt("boolean"),
@@ -17,8 +17,7 @@ export const ForgeBuildArgs = t.iface(["CompilerArgs", "ProjectPathArgs"], {
 });
 
 const exportedTypeSuite: t.ITypeSuite = {
-  ForgeBuildArgs,
+  ForgeBuildArgsTi,
 };
-
 // eslint-disable-next-line import/no-default-export
 export default exportedTypeSuite;

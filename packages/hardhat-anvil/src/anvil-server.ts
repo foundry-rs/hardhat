@@ -57,7 +57,7 @@ export class AnvilServer {
         }
       }
       if (options.noStorageCaching) {
-        args.push("--no-storage-caching", options.noStorageCaching);
+        args.push("--no-storage-caching");
       }
       if (options.hardfork) {
         args.push("--hardfork", options.hardfork);

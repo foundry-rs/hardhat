@@ -16,8 +16,8 @@
         "wsrun": "^5.2.2"
     },
     "scripts": {
-        "build": "tsc --build packages/easy-foundryup packages/hardhat-anvil packages/hardhat-forge",
-        "watch": "tsc --build --watch packages/easy-foundryup packages/hardhat-anvil packages/hardhat-forge",
+        "build": "tsc --build packages/hardhat packages/easy-foundryup packages/hardhat-anvil packages/hardhat-forge",
+        "watch": "tsc --build --watch packages/hardhat packages/easy-foundryup packages/hardhat-anvil packages/hardhat-forge",
         "clean": "wsrun --exclude-missing clean",
         "test": "wsrun --exclude-missing test",
         "lint": "wsrun --exclude-missing --stages lint && yarn prettier --check",
