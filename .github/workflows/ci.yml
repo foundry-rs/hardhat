@@ -1,0 +1,54 @@
+name: Lint
+
+on:
+  push:
+    branches: [$default-branch, pre-release-testing-branch]
+  pull_request:
+    branches:
+      - "*"
+
+concurrency:
+  group: ${{github.workflow}}-${{github.ref}}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint (JavaScript)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: yarn
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: lint
+        run: yarn lint
+  prettier:
+    name: Lint (.md, .yml)
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: yarn
+      - name: Install
+        run: yarn --frozen-lockfile
+     - name: lint
+        run: yarn prettier
+  test:
+    name: Test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+          cache: yarn
+      - name: Install
+        run: yarn --frozen-lockfile
+     - name: lint
+        run: yarn test
+
