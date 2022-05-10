@@ -2,7 +2,6 @@
 
 Aggregated foundry hardhat plugin
 
-
 ## Installation
 
 See in each plugin
@@ -13,5 +12,4 @@ See in each plugin
 
 ## LICENSE
 
-* MIT license ([LICENSE](LICENSE) or
-  https://opensource.org/licenses/MIT)
+- MIT license ([LICENSE](LICENSE) or https://opensource.org/licenses/MIT)
