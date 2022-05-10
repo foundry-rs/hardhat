@@ -7,6 +7,10 @@ on:
     branches:
       - "*"
 
+# Needed to use the ::add-path command
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
   cancel-in-progress: true
