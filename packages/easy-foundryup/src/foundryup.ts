@@ -9,5 +9,6 @@ void (async () => {
     console.log("successfully setup foundryup");
   } else {
     console.log("failed to setup foundryup");
+    process.exit(1);
   }
 })();
