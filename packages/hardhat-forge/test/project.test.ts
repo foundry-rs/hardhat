@@ -11,5 +11,9 @@ describe("Integration tests", function () {
     it("Should build", async function () {
       await this.hre.run("compile");
     });
+
+    it("Should test", async function () {
+      await this.hre.run("test");
+    });
   });
 });

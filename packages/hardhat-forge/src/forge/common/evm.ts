@@ -1,6 +1,44 @@
 // bindings for common evm settings
 
+import { ConfigurableTaskDefinition } from "hardhat/types";
+import { types } from "hardhat/config";
 import { envArgs, ForgeEnvArgs } from "./env";
+
+/**
+ * Registers all `CompilerArgs` on the hardhat `ConfigurableTaskDefinition`
+ * @param task
+ */
+export function registerEvmArgs(
+  task: ConfigurableTaskDefinition
+): ConfigurableTaskDefinition {
+  return task
+    .addOptionalParam(
+      "forkUrl",
+      "Fetch state over a remote endpoint instead of starting from an empty state.",
+      undefined,
+      types.string
+    )
+    .addOptionalParam(
+      "forkBlockNumber",
+      "Fetch state from a specific block number over a remote endpoint.",
+      undefined,
+      types.int
+    )
+    .addFlag("noStorageCaching", "Explicitly disables the use of RPC caching.")
+    .addFlag("ffi", "Enable the FFI cheatcode.")
+    .addOptionalParam(
+      "optimizerRuns",
+      "The number of optimizer runs.",
+      undefined,
+      types.int
+    )
+    .addOptionalParam(
+      "verbosity",
+      "Verbosity of the EVM output.",
+      undefined,
+      types.int
+    );
+}
 
 /**
  * EVM related args

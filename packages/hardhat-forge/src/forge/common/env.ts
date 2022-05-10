@@ -1,5 +1,27 @@
 // bindings for common env settings
 
+import { ConfigurableTaskDefinition } from "hardhat/types";
+import { types } from "hardhat/config";
+
+/**
+ * Registers all `CompilerArgs` on the hardhat `ConfigurableTaskDefinition`
+ * @param task
+ */
+export function registerEnvArgs(
+  task: ConfigurableTaskDefinition
+): ConfigurableTaskDefinition {
+  return task
+    .addOptionalParam("gasLimit", "The block gas limit.", undefined, types.int)
+    .addOptionalParam("chainId", "The chain Id.", undefined, types.int)
+    .addOptionalParam("gasPrice", "The gas price.", undefined, types.int)
+    .addOptionalParam("txOrigin", undefined, undefined, types.string)
+    .addOptionalParam("blockCoinbase", undefined, undefined, types.string)
+    .addOptionalParam("blockTimestamp", undefined, undefined, types.int)
+    .addOptionalParam("blockNumber", undefined, undefined, types.int)
+    .addOptionalParam("blockDifficulty", undefined, undefined, types.int)
+    .addOptionalParam("blockGasLimit", undefined, undefined, types.int);
+}
+
 /**
  * Mirrors the `forge build` arguments
  */

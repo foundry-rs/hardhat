@@ -8,6 +8,9 @@ export const ForgeTestArgsTi = t.iface(["ForgeBuildArgs", "ForgeEvmArgs"], {
   json: t.opt("boolean"),
   gasReport: t.opt("boolean"),
   allowFailure: t.opt("boolean"),
+  etherscanApiKey: t.opt("string"),
+  matchTest: t.opt("string"),
+  matchContract: t.opt("string"),
 });
 
 const exportedTypeSuite: t.ITypeSuite = {

@@ -1,7 +1,7 @@
 // bindings for forge test
 import { spawn as spawn } from "child_process";
 import { buildArgs, ForgeBuildArgs } from "../build/build";
-import { ForgeEvmArgs } from "../common";
+import { envArgs, evmArgs, ForgeEvmArgs } from "../common";
 
 /**
  * Mirrors the `forge test` arguments
@@ -10,6 +10,9 @@ export interface ForgeTestArgs extends ForgeBuildArgs, ForgeEvmArgs {
   json?: boolean;
   gasReport?: boolean;
   allowFailure?: boolean;
+  etherscanApiKey?: string;
+  matchTest?: string;
+  matchContract?: string;
 }
 
 /** *
@@ -34,37 +37,36 @@ export async function spawnTest(opts: ForgeTestArgs): Promise<boolean> {
  */
 export function testArgs(args: ForgeTestArgs): string[] {
   const allArgs: string[] = [];
-  if (args.force === true) {
-    allArgs.push("--force");
+  const etherscanApiKey = args.etherscanApiKey ?? "";
+  if (etherscanApiKey) {
+    allArgs.push("--etherscan-api-key", etherscanApiKey);
   }
-  if (args.names === true) {
-    allArgs.push("--names");
+
+  if (args.json ?? false) {
+    allArgs.push("--json");
   }
-  if (args.sizes === true) {
-    allArgs.push("--sizes");
+
+  if (args.allowFailure ?? false) {
+    allArgs.push("--allow-failure");
   }
-  if (args.libraries && args.libraries.length) {
-    allArgs.push("--libraries", ...args.libraries);
+
+  if (args.gasReport ?? false) {
+    allArgs.push("--gas-report");
   }
-  if (args.ignoredErrorCodes && args.ignoredErrorCodes.length) {
-    const codes = args.ignoredErrorCodes.map((code) => code.toString());
-    allArgs.push("--ignored-error-codes", ...codes);
+
+  const matchTest = args.matchTest ?? "";
+  if (matchTest) {
+    allArgs.push("--match-test", matchTest);
   }
-  if (args.noAutodetect === true) {
-    allArgs.push("--no-auto-detect");
-  }
-  const useSolc = args.useSolc ?? "";
-  if (useSolc) {
-    allArgs.push("--use", useSolc);
-  }
-  if (args.offline === true) {
-    allArgs.push("--offline");
-  }
-  if (args.viaIr === true) {
-    allArgs.push("--via-ir");
+
+  const matchContract = args.matchContract ?? "";
+  if (matchContract) {
+    allArgs.push("--match-contract", matchContract);
   }
 
   allArgs.push(...buildArgs(args));
+  allArgs.push(...evmArgs(args));
+  allArgs.push(...envArgs(args));
 
   return allArgs;
 }
