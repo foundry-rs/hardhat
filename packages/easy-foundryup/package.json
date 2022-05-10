@@ -15,7 +15,7 @@
         "foundryup"
     ],
     "scripts": {
-        "postinstall": "node ./dist/foundryup.js",
+        "postinstall": "ts-node ./src/foundryup.ts",
         "lint": "yarn prettier --check && yarn eslint",
         "lint:fix": "yarn prettier --write && yarn eslint --fix",
         "eslint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
