@@ -2,7 +2,7 @@ name: Lint
 
 on:
   push:
-    branches: [$default-branch, pre-release-testing-branch]
+    branches: [master, pre-release-testing-branch]
   pull_request:
     branches:
       - "*"
@@ -29,6 +29,7 @@ jobs:
         run: yarn lint
   prettier:
     name: Lint (.md, .yml)
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
@@ -41,6 +42,7 @@ jobs:
         run: yarn prettier
   test:
     name: Test
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
