@@ -1,8 +1,8 @@
 import { task } from "hardhat/config";
-import camelcaseKeys = require("camelcase-keys");
 import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
+import camelcaseKeys = require("camelcase-keys");
 import { registerCompilerArgs, registerProjectPathArgs } from "../common";
-import { ForgeBuildArgs, spawnBuild } from "./test";
+import { spawnBuild, ForgeTestArgs } from "./test";
 
 registerProjectPathArgs(registerCompilerArgs(task("compile")))
   .setDescription("Compiles the entire project with forge")
@@ -19,9 +19,11 @@ registerProjectPathArgs(registerCompilerArgs(task("compile")))
     await spawnBuild(buildArgs);
   });
 
-async function getCheckedArgs(args: any): Promise<ForgeBuildArgs> {
+async function getCheckedArgs(args: any): Promise<ForgeTestArgs> {
   // Get and initialize option validator
-  const { default: buildArgsSchema } = await import("./build-ti");
+  const { default: buildArgsSchema } = await import("../build/build-ti");
+  const { default: envArgsSchema } = await import("../common/env-ti");
+  const { default: evmArgsSchema } = await import("../common/evm-ti");
   const { default: compilerArgsSchema } = await import("../common/compiler-ti");
   const { default: projectPathsSchema } = await import(
     "../common/projectpaths-ti"
@@ -29,6 +31,8 @@ async function getCheckedArgs(args: any): Promise<ForgeBuildArgs> {
   const { createCheckers } = await import("ts-interface-checker");
   const { ForgeBuildArgsTi } = createCheckers(
     buildArgsSchema,
+    envArgsSchema,
+    evmArgsSchema,
     compilerArgsSchema,
     projectPathsSchema
   );
@@ -43,5 +47,5 @@ async function getCheckedArgs(args: any): Promise<ForgeBuildArgs> {
       e
     );
   }
-  return uncheckedBuildArgs as ForgeBuildArgs;
+  return uncheckedBuildArgs as ForgeTestArgs;
 }
