@@ -19,4 +19,6 @@ export const ForgeBuildArgs = t.iface(["CompilerArgs", "ProjectPathArgs"], {
 const exportedTypeSuite: t.ITypeSuite = {
   ForgeBuildArgs,
 };
+
+// eslint-disable-next-line import/no-default-export
 export default exportedTypeSuite;

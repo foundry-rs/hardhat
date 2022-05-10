@@ -19,4 +19,6 @@ export const ProjectPathArgs = t.iface([], {
 const exportedTypeSuite: t.ITypeSuite = {
   ProjectPathArgs,
 };
+
+// eslint-disable-next-line import/no-default-export
 export default exportedTypeSuite;

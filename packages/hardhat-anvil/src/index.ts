@@ -17,7 +17,7 @@ const log = debug("hardhat:plugin:anvil");
 import { AnvilService } from "./anvil-service";
 
 extendEnvironment((hre) => {
-  // This mimics the `hardhat-waffle` plugin so that it works as replacement for 
+  // This mimics the `hardhat-waffle` plugin so that it works as replacement for
   // it this is currently necessary because the waffle plugin is bound to a network
   // with the name `hardhat`
   (hre as any).waffle = lazyObject(() => {
@@ -25,15 +25,13 @@ extendEnvironment((hre) => {
 
     const { hardhatCreateFixtureLoader } = require("./fixtures");
 
-    const anvilWaffleProvider = new AnvilProviderAdapter(
-      hre.network
-    ) as any;
+    const anvilWaffleProvider = new AnvilProviderAdapter(hre.network) as any;
 
     return {
       provider: anvilWaffleProvider,
       deployContract: hardhatDeployContract.bind(undefined, hre),
       deployMockContract: getDeployMockContract(),
-       solidity: require("./waffle-chai").waffleChai,
+      solidity: require("./waffle-chai").waffleChai,
       createFixtureLoader: hardhatCreateFixtureLoader.bind(
         undefined,
         anvilWaffleProvider
@@ -65,12 +63,12 @@ extendConfig((resolvedConfig: any, config: any) => {
   }
   // make compatible with the hardhat accounts object used by the waffleprovider
   resolvedConfig.networks.anvil.accounts = {
-    mnemonic:  resolvedConfig.networks.anvil.mnemonic,
-    path:  resolvedConfig.networks.anvil.hdPath,
+    mnemonic: resolvedConfig.networks.anvil.mnemonic,
+    path: resolvedConfig.networks.anvil.hdPath,
     initialIndex: 0,
     count: resolvedConfig.networks.anvil.totalAccounts,
-    passphrase: ""
-  }
+    passphrase: "",
+  };
 });
 
 async function handlePluginTask(
@@ -93,7 +91,6 @@ async function handlePluginTask(
     anvilService.stopServer();
     throw error;
   }
- 
 
   log("Stopping Anvil");
   anvilService.stopServer();
