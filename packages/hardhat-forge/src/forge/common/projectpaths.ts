@@ -1,5 +1,55 @@
 // bindings for common project paths settings
 
+import { types } from "hardhat/config";
+import { ConfigurableTaskDefinition } from "hardhat/types";
+
+/**
+ * Registers all `CompilerArgs` on the hardhat `ConfigurableTaskDefinition`
+ * @param task
+ */
+export function registerProjectPathArgs(
+  task: ConfigurableTaskDefinition
+): ConfigurableTaskDefinition {
+  return task
+    .addOptionalParam(
+      "root",
+      "The project's root path.",
+      undefined,
+      types.string
+    )
+    .addOptionalParam(
+      "contracts",
+      "The contracts source directory.",
+      undefined,
+      types.string
+    )
+    .addOptionalParam(
+      "remappings",
+      "The project's remappings",
+      undefined,
+      types.string
+    )
+    .addOptionalParam(
+      "cachePath",
+      "The path to the compiler cache.",
+      undefined,
+      types.string
+    )
+    .addOptionalParam(
+      "libPaths",
+      "The path to the library folder.",
+      undefined,
+      types.string
+    )
+    .addFlag("hardhat", "Use the Hardhat-style project layout.")
+    .addOptionalParam(
+      "configPath",
+      "Path to the config file.",
+      undefined,
+      types.string
+    );
+}
+
 /**
  * Mirrors the `ProjectPaths` type
  */

@@ -1,7 +1,11 @@
 // bindings for forge build
 import { spawn as spawn } from "child_process";
-import { compilerArgs, CompilerArgs } from "./compiler";
-import { ProjectPathArgs, projectPathsArgs } from "./projectpaths";
+import {
+  compilerArgs,
+  CompilerArgs,
+  ProjectPathArgs,
+  projectPathsArgs,
+} from "../common";
 
 /**
  * Mirrors the `forge build` arguments
@@ -15,7 +19,7 @@ export declare interface ForgeBuildArgs extends CompilerArgs, ProjectPathArgs {
   noAutodetect?: boolean;
   useSolc?: string;
   offline?: boolean;
-  viaIR?: boolean;
+  viaIr?: boolean;
 }
 
 /** *
@@ -66,7 +70,7 @@ export function buildArgs(args: ForgeBuildArgs): string[] {
   if (args.offline === true) {
     allArgs.push("--offline");
   }
-  if (args.viaIR === true) {
+  if (args.viaIr === true) {
     allArgs.push("--via-ir");
   }
 

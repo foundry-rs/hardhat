@@ -3,6 +3,6 @@ import { checkForge } from "@foundry-rs/easy-foundryup";
 export { checkForge };
 
 export * from "./build";
-import "./evm";
-import "./compiler";
-import "./projectpaths";
+import "./common/evm";
+import "./common/compiler";
+import "./common/projectpaths";
