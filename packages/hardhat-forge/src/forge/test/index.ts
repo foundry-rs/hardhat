@@ -2,7 +2,7 @@ import { task } from "hardhat/config";
 import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
 import camelcaseKeys = require("camelcase-keys");
 import { registerCompilerArgs, registerProjectPathArgs } from "../common";
-import { spawnBuild, ForgeTestArgs } from "./test";
+import { spawnTest, ForgeTestArgs } from "./test";
 
 registerProjectPathArgs(registerCompilerArgs(task("test")))
   .setDescription("Compiles the entire project with forge")
@@ -16,7 +16,7 @@ registerProjectPathArgs(registerCompilerArgs(task("test")))
   )
   .setAction(async (args, {}) => {
     const buildArgs = await getCheckedArgs(args);
-    await spawnBuild(buildArgs);
+    await spawnTest(buildArgs);
   });
 
 async function getCheckedArgs(args: any): Promise<ForgeTestArgs> {

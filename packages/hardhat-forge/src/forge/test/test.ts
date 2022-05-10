@@ -16,7 +16,7 @@ export interface ForgeTestArgs extends ForgeBuildArgs, ForgeEvmArgs {
  * Invokes `forge build`
  * @param opts The arguments to pass to `forge build`
  */
-export async function spawnBuild(opts: ForgeTestArgs): Promise<boolean> {
+export async function spawnTest(opts: ForgeTestArgs): Promise<boolean> {
   const args = ["test", ...testArgs(opts)];
   return new Promise((resolve) => {
     const process = spawn("forge", args, {
