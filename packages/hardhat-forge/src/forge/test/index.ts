@@ -37,7 +37,7 @@ async function getCheckedArgs(args: any): Promise<ForgeTestArgs> {
     projectPathsSchema
   );
   const uncheckedBuildArgs = camelcaseKeys(args);
-  // Validate all options agains validator
+  // Validate all options against the validator
   try {
     ForgeBuildArgsTi.check(uncheckedBuildArgs);
   } catch (e: any) {
