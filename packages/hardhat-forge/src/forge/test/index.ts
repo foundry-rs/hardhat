@@ -4,7 +4,7 @@ import camelcaseKeys = require("camelcase-keys");
 import { registerCompilerArgs, registerProjectPathArgs } from "../common";
 import { spawnBuild, ForgeTestArgs } from "./test";
 
-registerProjectPathArgs(registerCompilerArgs(task("compile")))
+registerProjectPathArgs(registerCompilerArgs(task("test")))
   .setDescription("Compiles the entire project with forge")
   .addFlag(
     "offline",
