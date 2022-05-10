@@ -38,6 +38,8 @@ jobs:
           cache: yarn
       - name: Install
         run: yarn --frozen-lockfile --ignore-scripts
+      - name: Build
+        run: yarn build
       - name: lint
         run: yarn prettier
   test:
@@ -51,5 +53,7 @@ jobs:
           cache: yarn
       - name: Install
         run: yarn --frozen-lockfile --ignore-scripts
+      - name: Build
+        run: yarn build
       - name: lint
         run: yarn test
