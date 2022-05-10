@@ -7,9 +7,11 @@ on:
     branches:
       - "*"
 
-# Needed to use the ::add-path command
 env:
+  # Needed to use the ::add-path command
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  # Needed to make foundryup not complain
+  SHELL: /bin/bash
 
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
