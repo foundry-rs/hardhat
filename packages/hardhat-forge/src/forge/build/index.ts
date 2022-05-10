@@ -4,9 +4,8 @@ import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
 import { registerCompilerArgs, registerProjectPathArgs } from "../common";
 import { ForgeBuildArgs, spawnBuild } from "./build";
 
-registerProjectPathArgs(registerCompilerArgs(task("forge:build")))
+registerProjectPathArgs(registerCompilerArgs(task("compile")))
   .setDescription("Compiles the entire project with forge")
-  .addFlag("force", "Clear the cache and artifacts folder and recompile.")
   .addFlag(
     "offline",
     "Do not access the network. Missing solc versions will not be installed."
