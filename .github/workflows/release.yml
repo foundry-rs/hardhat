@@ -29,6 +29,9 @@ jobs:
           key: ${{ runner.OS }}-14.x-yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.OS }}-14.x-yarn-cache-
 
+      - name: WHAT IS MY SHELL
+        run: echo $SHELL
+
       - name: Install
         run: yarn --no-progress --non-interactive --frozen-lockfile
 
