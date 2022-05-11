@@ -9,7 +9,7 @@
         "docs"
     ],
     "devDependencies": {
-        "@changesets/cli": "^2.16.0",
+        "@changesets/cli": "^2.22.0",
         "prettier": "2.4.1",
         "shelljs": "^0.8.5",
         "typescript": "~4.5.2",
