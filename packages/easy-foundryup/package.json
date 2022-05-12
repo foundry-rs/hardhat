@@ -21,7 +21,8 @@
     "eslint": "eslint 'src/**/*.ts'",
     "prettier": "prettier \"**/*.{js,md}\"",
     "build": "tsc --build .",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "mocha --recursive \"test/**/*.ts\" --exit"
   },
   "files": [
     "dist/",
@@ -30,6 +31,7 @@
     "README.md"
   ],
   "dependencies": {
+    "command-exists": "^1.2.9",
     "ts-interface-checker": "^0.1.9"
   },
   "devDependencies": {
