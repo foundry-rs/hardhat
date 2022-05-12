@@ -7,10 +7,18 @@ describe("Tests using the anvil plugin", function () {
   });
 
   it("can send transaction", async function () {
-    const wallets = waffle.provider.getWallets();
-    console.log(wallets);
+    const accounts = waffle.provider.getWallets();
+    const EVMConsumer = await artifacts.readArtifact("EVMConsumer");
+    const tx = await network.provider.send("eth_sendTransaction", [
+      {
+        from: accounts[0],
+        data: EVMConsumer.bytecode,
+      },
+    ]);
+  });
+
+  it("can send transaction with env provider", async function () {
     const accounts = await network.provider.send("eth_accounts");
-    console.log(accounts);
     const EVMConsumer = await artifacts.readArtifact("EVMConsumer");
     const tx = await network.provider.send("eth_sendTransaction", [
       {

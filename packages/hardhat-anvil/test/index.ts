@@ -29,24 +29,24 @@ describe("Anvil plugin with empty configs", function () {
 
     assert.equal(failures, 0);
   });
-  //
-  // it("Should run Hardhat RUN task 'accounts-sample.js' using Anvil", async function () {
-  //   await this.env.run("run", {
-  //     noCompile: true,
-  //     script: "scripts/accounts-sample.js",
-  //   });
-  //
-  //   assert.equal(process.exitCode, 0);
-  // });
-  //
-  // it("Should run Hardhat RUN task 'delayed-sample.js' using Anvil", async function () {
-  //   await this.env.run("run", {
-  //     noCompile: true,
-  //     script: "scripts/delayed-sample.js",
-  //   });
-  //
-  //   assert.equal(process.exitCode, 0);
-  // });
+
+  it("Should run Hardhat RUN task 'accounts-sample.js' using Anvil", async function () {
+    await this.env.run("run", {
+      noCompile: true,
+      script: "scripts/accounts-sample.js",
+    });
+
+    assert.equal(process.exitCode, 0);
+  });
+
+  it("Should run Hardhat RUN task 'delayed-sample.js' using Anvil", async function () {
+    await this.env.run("run", {
+      noCompile: true,
+      script: "scripts/delayed-sample.js",
+    });
+
+    assert.equal(process.exitCode, 0);
+  });
 });
 
 describe("Anvil plugin with custom configs", function () {

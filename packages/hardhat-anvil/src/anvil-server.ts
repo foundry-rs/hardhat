@@ -88,13 +88,13 @@ export class AnvilServer {
       });
 
       // wait until server ready
-      const retries = 5;
+      const retries = 30; // 3secs
       for (let i = 0; i < retries; i++) {
         if (serverReady) {
           log("anvil server ready");
           break;
         }
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     }
 

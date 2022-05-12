@@ -5,7 +5,7 @@ async function main() {
   const customConfigs = require("../hardhat.config.ts").default;
   const customOptions = customConfigs.networks.anvil;
 
-  const accounts = await env.network.provider.send("eth_accounts");
+  const accounts = await env.waffle.provider.send("eth_accounts");
 
   // Test for existence
   if (!accounts) {
@@ -20,12 +20,9 @@ async function main() {
   }
 
   // Test for: defaultBalanceEther
-  for (let account of accounts) {
-    let accParams = [account, "latest"];
-    const balance = await env.network.provider.send(
-      "eth_getBalance",
-      accParams
-    );
+  for (const account of accounts) {
+    const accParams = [account, "latest"];
+    const balance = await env.waffle.provider.send("eth_getBalance", accParams);
     const defaultBalanceWei = customOptions.defaultBalanceEther * 10 ** 18;
     const accBalanceWei = parseInt(balance, 16);
 
