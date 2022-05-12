@@ -6,8 +6,11 @@ describe("Tests using the anvil plugin", function () {
     assert(accounts.length !== 0, "No account was returned");
   });
 
-  it("CHAINID opcode should be available", async function () {
+  it("can send transaction", async function () {
+    const wallets = waffle.provider.getWallets();
+    console.log(wallets);
     const accounts = await network.provider.send("eth_accounts");
+    console.log(accounts);
     const EVMConsumer = await artifacts.readArtifact("EVMConsumer");
     const tx = await network.provider.send("eth_sendTransaction", [
       {

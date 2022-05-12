@@ -1,8 +1,9 @@
 import { spawn } from "child_process";
 import debug from "debug";
+import { getAnvilCommand } from "@foundry-rs/easy-foundryup";
 import { AnvilOptions } from "./anvil-service";
 
-const log = debug("hardhat:plugin:anvil-service::spawn");
+const log = debug("hardhat::plugin::anvil::spawn");
 
 export class AnvilServer {
   private readonly _anvil: any;
@@ -13,12 +14,12 @@ export class AnvilServer {
     this._anvil = anvil;
   }
 
-  public static launch(options: any): AnvilServer {
+  public static async launch(options: any): Promise<AnvilServer> {
     log("Launching anvil");
     let anvil: any;
 
     if (options.launch) {
-      const anvilPath = options.path ?? "anvil";
+      const anvilPath = options.path ?? (await getAnvilCommand());
       const args = [];
       if (options.port) {
         args.push("--port", options.port);
@@ -65,7 +66,12 @@ export class AnvilServer {
 
       anvil = spawn(anvilPath, args);
 
+      let serverReady = false;
       anvil.stdout.on("data", (data: any) => {
+        const output = data.toString();
+        if (output.includes("Listening")) {
+          serverReady = true;
+        }
         log(`${data}`);
       });
 
@@ -80,6 +86,16 @@ export class AnvilServer {
       process.on("exit", function () {
         anvil.kill();
       });
+
+      // wait until server ready
+      const retries = 5;
+      for (let i = 0; i < retries; i++) {
+        if (serverReady) {
+          log("anvil server ready");
+          break;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
     }
 
     return new AnvilServer(options, anvil);

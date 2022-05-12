@@ -1,15 +1,11 @@
-pragma solidity ^0.7.4;
+pragma solidity ^0.8.10;
 
 contract EVMConsumer {
 
     uint256 theChainID;
 
     constructor() public {
-        uint256 id;
-        assembly {
-            id := chainid()
-        }
-        theChainID = id;
+        theChainID = 10;
     }
 
 }

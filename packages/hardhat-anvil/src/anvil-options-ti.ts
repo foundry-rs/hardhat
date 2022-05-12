@@ -8,7 +8,7 @@ export const AnvilOptionsTi = t.iface([], {
   keepAliveTimeout: t.opt("number"),
   accountKeysPath: t.opt("string"),
   hostname: t.opt("string"),
-  accounts: t.opt(t.array("object")),
+  accounts: t.opt(t.union(t.array("object"), "object")),
   allowUnlimitedContractSize: t.opt("boolean"),
   blockTime: t.opt("number"),
   dbPath: t.opt("string"),

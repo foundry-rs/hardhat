@@ -227,7 +227,7 @@ subtask(TASK_NODE_GET_PROVIDER).setAction(
 );
 
 extendConfig((resolvedConfig: any, config: any) => {
-  const defaultOptions = AnvilService.getDefaultOptions();
+  const defaultOptions = AnvilService.getDefaultAccountConfig();
 
   if (config.networks && config.networks.anvil) {
     const customOptions = config.networks.anvil;

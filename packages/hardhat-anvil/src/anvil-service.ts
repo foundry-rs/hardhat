@@ -8,7 +8,7 @@ const log = debug("hardhat:plugin:anvil-service");
 export declare interface AnvilOptions {
   url: string;
   accountKeysPath?: string; // Translates to: account_keys_path
-  accounts?: object[];
+  accounts?: object[] | object;
   hostname?: string;
   allowUnlimitedContractSize?: boolean;
   blockTime?: number;
@@ -39,13 +39,19 @@ const DEFAULT_PORT = 8545;
 
 export class AnvilService {
   public static error?: Error;
-  public static optionValidator: any;
+
+  public static getDefaultAccountConfig(): AnvilOptions {
+    return {
+      locked: false,
+      hdPath: "m/44'/60'/0'/0/",
+      mnemonic: "test test test test test test test test test test test junk",
+      ...AnvilService.getDefaultOptions(),
+    };
+  }
 
   public static getDefaultOptions(): AnvilOptions {
     return {
-      url: `http://127.0.0.1:${DEFAULT_PORT}`,
-      gasPrice: 20000000000,
-      gasLimit: 6721975,
+      url: `http://127.0.0.1:${DEFAULT_PORT}/`,
       launch: true,
     };
   }
@@ -86,7 +92,7 @@ export class AnvilService {
 
   public static async create(options: any): Promise<AnvilService> {
     const args = await AnvilService.getCheckedArgs(options);
-    const Anvil = AnvilServer.launch(args);
+    const Anvil = await AnvilServer.launch(args);
 
     return new AnvilService(Anvil, args);
   }
