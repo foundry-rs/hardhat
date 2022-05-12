@@ -30,6 +30,7 @@
     "README.md"
   ],
   "dependencies": {
+    "command-exists": "^1.2.9",
     "ts-interface-checker": "^0.1.9"
   },
   "devDependencies": {
