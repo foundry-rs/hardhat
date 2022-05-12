@@ -1,5 +1,6 @@
 // bindings for forge test
 import { spawn as spawn } from "child_process";
+import * as foundryup from "@foundry-rs/easy-foundryup";
 import { buildArgs, ForgeBuildArgs } from "../build/build";
 import { envArgs, evmArgs, ForgeEvmArgs } from "../common";
 
@@ -21,8 +22,9 @@ export interface ForgeTestArgs extends ForgeBuildArgs, ForgeEvmArgs {
  */
 export async function spawnTest(opts: ForgeTestArgs): Promise<boolean> {
   const args = ["test", ...testArgs(opts)];
+  const forgeCmd = await foundryup.getForgeCommand();
   return new Promise((resolve) => {
-    const process = spawn("forge", args, {
+    const process = spawn(forgeCmd, args, {
       stdio: "inherit",
     });
     process.on("exit", (code) => {
