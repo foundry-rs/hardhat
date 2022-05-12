@@ -1,6 +1,4 @@
-// tslint:disable-next-line no-implicit-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
-
+import { assert } from "chai";
 import { useEnvironment } from "./helpers";
 
 describe("Integration tests", function () {
@@ -14,6 +12,12 @@ describe("Integration tests", function () {
 
     it("Should test", async function () {
       await this.hre.run("test");
+    });
+
+    it("Should return config", async function () {
+      const config = await this.hre.run("forge:config");
+      assert.equal(config.src, "src");
+      assert.equal(config.out, "out");
     });
   });
 });
