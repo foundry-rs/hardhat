@@ -14,13 +14,14 @@ extendEnvironment((hre) => {
   // patches the default artifacts handler
   (hre as any).artifacts = lazyObject(() => {
     return spawnConfig().then((config) => {
+      // read the foundry config and set the paths
       const outDir = path.join(hre.config.paths.root, config.out);
       const cacheDir = path.join(
         hre.config.paths.root,
         config.cache_path ?? "cache",
         SOLIDITY_FILES_CACHE_FILENAME
       );
-      return new ForgeArtifacts(outDir, outDir, cacheDir);
+      return new ForgeArtifacts(outDir, cacheDir);
     });
   });
 });

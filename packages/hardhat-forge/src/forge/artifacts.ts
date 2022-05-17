@@ -27,11 +27,7 @@ import {
 } from "hardhat/internal/constants";
 
 export class ForgeArtifacts implements IArtifacts {
-  constructor(
-    private _artifactsPath: string,
-    private _out: string,
-    private _cache: string
-  ) {}
+  constructor(private _out: string, private _cache: string) {}
 
   public async readArtifact(name: string): Promise<Artifact> {
     const artifactPath = await this._getArtifactPath(name);
@@ -64,9 +60,7 @@ export class ForgeArtifacts implements IArtifacts {
   }
 
   public async getArtifactPaths(): Promise<string[]> {
-    // TODO read from cache file instead
-    const paths = await glob(path.join(this._artifactsPath, "**/*.json"));
-
+    const paths = await glob(path.join(this._out, "**/*.json"));
     return paths.sort();
   }
 
@@ -110,8 +104,7 @@ export class ForgeArtifacts implements IArtifacts {
   }
 
   private _getArtifactPathsSync(): string[] {
-    const paths = globSync(path.join(this._artifactsPath, "**/*.json"));
-
+    const paths = globSync(path.join(this._out, "**/*.json"));
     return paths.sort();
   }
 
@@ -184,24 +177,7 @@ export class ForgeArtifacts implements IArtifacts {
   ): string {
     const { sourceName, contractName } =
       parseFullyQualifiedName(fullyQualifiedName);
-
-    return path.join(this._artifactsPath, sourceName, `${contractName}.json`);
-  }
-
-  /**
-   * DO NOT DELETE OR CHANGE
-   *
-   * use this.formArtifactPathFromFullyQualifiedName instead
-   * @deprecated until typechain migrates to public version
-   * @see https://github.com/dethcrypto/TypeChain/issues/544
-   */
-  private _getArtifactPathFromFullyQualifiedName(
-    fullyQualifiedName: string
-  ): string {
-    const { sourceName, contractName } =
-      parseFullyQualifiedName(fullyQualifiedName);
-
-    return path.join(this._artifactsPath, sourceName, `${contractName}.json`);
+    return path.join(this._out, sourceName, `${contractName}.json`);
   }
 
   private async _getValidArtifactPathFromFullyQualifiedName(
@@ -211,8 +187,8 @@ export class ForgeArtifacts implements IArtifacts {
       this.formArtifactPathFromFullyQualifiedName(fullyQualifiedName);
 
     const trueCaseArtifactPath = await this._trueCasePath(
-      path.relative(this._artifactsPath, artifactPath),
-      this._artifactsPath
+      path.relative(this._out, artifactPath),
+      this._out
     );
 
     if (trueCaseArtifactPath === null) {
@@ -299,7 +275,7 @@ Please replace "${contractName}" for the correct contract name wherever you are 
    *   - 'contracts/Greeter.sol:Greeter'
    *   - 'contracts/Meeter.sol:Greeter'
    *   - 'contracts/Greater.sol:Greater'
-   *  And the user tries to get an artifact with the name 'Greter', then
+   *  And the user tries to get an artifact with the name 'Greeter', then
    *  the suggestions will be 'Greeter', 'Greeter', and 'Greater'.
    *
    * We don't want to show duplicates here, so we use FQNs for those. The
@@ -371,8 +347,8 @@ Please replace "${contractName}" for the correct contract name wherever you are 
       this.formArtifactPathFromFullyQualifiedName(fullyQualifiedName);
 
     const trueCaseArtifactPath = this._trueCasePathSync(
-      path.relative(this._artifactsPath, artifactPath),
-      this._artifactsPath
+      path.relative(this._out, artifactPath),
+      this._out
     );
 
     if (trueCaseArtifactPath === null) {
@@ -428,7 +404,7 @@ Please replace "${contractName}" for the correct contract name wherever you are 
    */
   private _getFullyQualifiedNameFromPath(absolutePath: string): string {
     const sourceName = replaceBackslashes(
-      path.relative(this._artifactsPath, path.dirname(absolutePath))
+      path.relative(this._out, path.dirname(absolutePath))
     );
 
     const contractName = path.basename(absolutePath).replace(".json", "");
