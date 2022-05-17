@@ -25,18 +25,48 @@ import {
   ARTIFACT_FORMAT_VERSION,
   EDIT_DISTANCE_THRESHOLD,
 } from "hardhat/internal/constants";
+import { ForgeArtifact } from "./types";
 
 export class ForgeArtifacts implements IArtifacts {
   constructor(private _out: string, private _cache: string) {}
 
   public async readArtifact(name: string): Promise<Artifact> {
     const artifactPath = await this._getArtifactPath(name);
-    return fsExtra.readJson(artifactPath);
+    const forgeArtifact = (await fsExtra.readJson(
+      artifactPath
+    )) as ForgeArtifact;
+    return this.convertForgeArtifact(forgeArtifact, artifactPath, name);
   }
 
   public readArtifactSync(name: string): Artifact {
     const artifactPath = this._getArtifactPathSync(name);
-    return fsExtra.readJsonSync(artifactPath);
+    const forgeArtifact = fsExtra.readJsonSync(artifactPath) as ForgeArtifact;
+    return this.convertForgeArtifact(forgeArtifact, artifactPath, name);
+  }
+
+  /**
+   * Converts a forge artifact to a hardhat style `Artifact`
+   * @param artifact
+   * @param artifactPath
+   * @param name
+   */
+  public convertForgeArtifact(
+    artifact: ForgeArtifact,
+    artifactPath: string,
+    name: string
+  ): Artifact {
+    const { abi, bytecode, deployedBytecode } = artifact;
+    const hhArtifact = {
+      abi,
+      bytecode: bytecode.object,
+      contractName: name,
+      deployedBytecode: deployedBytecode.object,
+      deployedLinkReferences: bytecode.linkReferences,
+      linkReferences: deployedBytecode.linkReferences,
+      sourceName: this._getFullyQualifiedNameFromPath(artifactPath),
+      _format: ARTIFACT_FORMAT_VERSION,
+    };
+    return hhArtifact as Artifact;
   }
 
   public async artifactExists(name: string): Promise<boolean> {

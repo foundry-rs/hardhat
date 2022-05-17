@@ -1,7 +1,7 @@
 // bindings for forge config
 
 import * as foundryup from "@foundry-rs/easy-foundryup";
-import { spawn } from "child_process";
+import { spawn, spawnSync } from "child_process";
 import { task } from "hardhat/config";
 import { FoundryConfig } from "./config";
 
@@ -28,4 +28,14 @@ export async function spawnConfig(): Promise<FoundryConfig> {
       resolve(JSON.parse(config) as FoundryConfig);
     });
   });
+}
+
+/** *
+ * Invokes `forge config` and returns the current config of the current project
+ */
+export function spawnConfigSync(): FoundryConfig {
+  const args = ["config", "--json"];
+  const forgeCmd = foundryup.getForgeCommandSync();
+  const res = spawnSync(forgeCmd, args);
+  return JSON.parse(res.stdout.toString()) as FoundryConfig;
 }
