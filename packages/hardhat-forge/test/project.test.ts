@@ -1,6 +1,4 @@
-// tslint:disable-next-line no-implicit-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
-
+import { assert } from "chai";
 import { useEnvironment } from "./helpers";
 
 describe("Integration tests", function () {
@@ -14,6 +12,27 @@ describe("Integration tests", function () {
 
     it("Should test", async function () {
       await this.hre.run("test");
+    });
+
+    it("Should return config", async function () {
+      const config = await this.hre.run("forge:config");
+      assert.equal(config.src, "src");
+      assert.equal(config.out, "out");
+    });
+
+    it("Should read artifacts", async function () {
+      const artifacts = await this.hre.artifacts.getArtifactPaths();
+      assert.isNotEmpty(artifacts);
+      const contract = await this.hre.artifacts.readArtifact("Contract");
+      assert.exists(contract.abi);
+      assert.exists(contract.bytecode);
+      assert.typeOf(contract.bytecode, "string");
+      assert.exists(contract.deployedBytecode);
+      assert.typeOf(contract.deployedBytecode, "string");
+      assert.exists(contract.linkReferences);
+      assert.exists(contract.deployedLinkReferences);
+      assert.exists(contract.contractName);
+      assert.exists(contract.sourceName);
     });
   });
 });

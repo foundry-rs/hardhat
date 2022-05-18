@@ -13,7 +13,7 @@ See in each plugin
 ## Documentation
 
 - [Foundry repo](https://github.com/foundry-rs/foundry/)
-- [Foundry book](https://github.com/foundry-rs/foundry/)
+- [Foundry book](https://book.getfoundry.sh/)
 - [Anvil](https://github.com/foundry-rs/foundry/tree/master/anvil)
 
 ## Contributing
