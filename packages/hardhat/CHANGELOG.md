@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat
 
+## 0.1.3
+
+### Patch Changes
+
+- 794c306: add test change
+
 ## 0.1.2
 
 ### Patch Changes
