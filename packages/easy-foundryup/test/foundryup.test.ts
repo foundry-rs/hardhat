@@ -14,8 +14,14 @@ describe("Foundryup command tests", function () {
   it("Should get commands if installed", async function () {
     if (this.installed) {
       const _anvil = await foundryup.getAnvilCommand();
-      const _forge = await foundryup.getCastCommand();
-      const _cast = await foundryup.getForgeCommand();
+      const _cast = await foundryup.getCastCommand();
+      const _forge = await foundryup.getForgeCommand();
+    }
+  });
+
+  it("Should get commands sync", function () {
+    if (this.installed) {
+      const _forge = foundryup.getForgeCommandSync();
     }
   });
 });

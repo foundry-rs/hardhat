@@ -1,4 +1,5 @@
-import { exec, spawn } from "child_process";
+import { exec, execSync, spawn } from "child_process";
+
 const os = require("os");
 const path = require("path");
 const commandExists = require("command-exists");
@@ -43,6 +44,20 @@ export async function getForgeCommand(): Promise<string> {
   } catch (e) {
     const cmd = foundryForgeBinPath();
     await checkCommand(`${cmd} --version`);
+    return cmd;
+  }
+}
+
+/**
+ * @returns the path to the forge path to use, if `forge` is in path then this will be returned
+ *
+ */
+export function getForgeCommandSync(): string {
+  if (commandExists.sync("forge")) {
+    return "forge";
+  } else {
+    const cmd = foundryForgeBinPath();
+    checkCommandSync(`${cmd} --version`);
     return cmd;
   }
 }
@@ -180,4 +195,25 @@ async function checkCommand(cmd: string): Promise<boolean> {
       resolve(code === 0);
     });
   });
+}
+
+/**
+ * Executes the given command
+ *
+ * @param cmd the command to run
+ * @return returns true if the command succeeded, false otherwise
+ */
+function checkCommandSync(cmd: string): boolean {
+  try {
+    execSync(cmd);
+    return true;
+  } catch (error: any) {
+    const status = error.status === 0;
+    if (!status) {
+      console.error(
+        "Command failed. Is Foundry not installed? Consider installing via `curl -L https://foundry.paradigm.xyz | bash` and then running `foundryup` on a new terminal. For more context, check the installation instructions in the book: https://book.getfoundry.sh/getting-started/installation.html."
+      );
+    }
+    return status;
+  }
 }
