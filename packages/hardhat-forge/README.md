@@ -1,6 +1,6 @@
 # hardhat-forge
 
-This Hardhat plugin for [forge](https://github.com/foundry-rs/foundry/).
+This Hardhat plugin is for [forge](https://github.com/foundry-rs/foundry/tree/master/forge).
 
 ## What
 
@@ -26,7 +26,7 @@ import "@foundry-rs/hardhat-forge";
 
 ## Tasks
 
-This plugin provides following tasks:
+This plugin provides the following tasks:
 
 - "forge::build" for "`forge build`
 - "forge::test" for "`forge test`

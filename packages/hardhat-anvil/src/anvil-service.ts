@@ -72,7 +72,7 @@ export class AnvilService {
       AnvilOptionsTi.check(options);
     } catch (e: any) {
       throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
+        "@foundry-rs/hardhat-anvil",
         `Anvil network config is invalid: ${e.message}`,
         e
       );
@@ -82,7 +82,7 @@ export class AnvilService {
     const url = new URL(options.url);
     if (url.hostname !== "localhost" && url.hostname !== "127.0.0.1") {
       throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
+        "@foundry-rs/hardhat-anvil",
         "Anvil network only works with localhost"
       );
     }
@@ -90,9 +90,12 @@ export class AnvilService {
     return options as AnvilOptions;
   }
 
-  public static async create(options: any): Promise<AnvilService> {
+  public static async create(
+    options: any,
+    inherit: boolean = false
+  ): Promise<AnvilService> {
     const args = await AnvilService.getCheckedArgs(options);
-    const Anvil = await AnvilServer.launch(args);
+    const Anvil = await AnvilServer.launch(args, inherit);
 
     return new AnvilService(Anvil, args);
   }
@@ -108,5 +111,9 @@ export class AnvilService {
 
   public stopServer() {
     this._server.kill();
+  }
+
+  public async waitUntilClosed(): Promise<void> {
+    return this._server.waitUntilClosed();
   }
 }

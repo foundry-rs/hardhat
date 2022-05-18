@@ -38,7 +38,7 @@ async function getCheckedArgs(args: any): Promise<ForgeBuildArgs> {
     ForgeBuildArgsTi.check(uncheckedBuildArgs);
   } catch (e: any) {
     throw new NomicLabsHardhatPluginError(
-      "@nomiclabs/hardhat-forge",
+      "@foundry-rs/hardhat-forge",
       `Forge build config is invalid: ${e.message}`,
       e
     );

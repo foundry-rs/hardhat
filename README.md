@@ -30,4 +30,4 @@ Be sure to not merge other pull requests into `develop` if partially through the
 
 ## Contributing
 
-See [contributing guidlines](https://github.com/foundry-rs/foundry/blob/master/CONTRIBUTING.md)
+See [contributing guidelines](https://github.com/foundry-rs/foundry/blob/master/CONTRIBUTING.md)

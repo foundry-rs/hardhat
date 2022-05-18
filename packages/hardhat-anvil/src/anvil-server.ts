@@ -14,7 +14,10 @@ export class AnvilServer {
     this._anvil = anvil;
   }
 
-  public static async launch(options: any): Promise<AnvilServer> {
+  public static async launch(
+    options: any,
+    inherit: boolean = false
+  ): Promise<AnvilServer> {
     log("Launching anvil");
     let anvil: any;
 
@@ -64,20 +67,9 @@ export class AnvilServer {
         args.push("--hardfork", options.hardfork);
       }
 
-      anvil = spawn(anvilPath, args);
+      const opts = inherit ? { stdio: "inherit" } : {};
 
-      let serverReady = false;
-      anvil.stdout.on("data", (data: any) => {
-        const output = data.toString();
-        if (output.includes("Listening")) {
-          serverReady = true;
-        }
-        log(`${data}`);
-      });
-
-      anvil.stderr.on("data", (data: any) => {
-        log(`${data}`);
-      });
+      anvil = spawn(anvilPath, args, opts as any);
 
       anvil.on("close", (code: any) => {
         log(`anvil child process exited with code ${code}`);
@@ -87,14 +79,29 @@ export class AnvilServer {
         anvil.kill();
       });
 
-      // wait until server ready
-      const retries = 30; // 3secs
-      for (let i = 0; i < retries; i++) {
-        if (serverReady) {
-          log("anvil server ready");
-          break;
+      if (!inherit) {
+        let serverReady = false;
+        anvil.stdout.on("data", (data: any) => {
+          const output = data.toString();
+          if (output.includes("Listening")) {
+            serverReady = true;
+          }
+          log(`${data}`);
+        });
+
+        anvil.stderr.on("data", (data: any) => {
+          log(`${data}`);
+        });
+
+        // wait until server ready
+        const retries = 30; // 3secs
+        for (let i = 0; i < retries; i++) {
+          if (serverReady) {
+            log("anvil server ready");
+            break;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 100));
         }
-        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     }
 
@@ -103,5 +110,11 @@ export class AnvilServer {
 
   public kill() {
     this._anvil?.kill();
+  }
+
+  public async waitUntilClosed(): Promise<void> {
+    return new Promise((resolve) => {
+      this._anvil.once("close", resolve);
+    });
   }
 }
