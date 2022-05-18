@@ -72,7 +72,7 @@ export class AnvilService {
       AnvilOptionsTi.check(options);
     } catch (e: any) {
       throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
+        "@foundry-rs/hardhat-anvil",
         `Anvil network config is invalid: ${e.message}`,
         e
       );
@@ -82,7 +82,7 @@ export class AnvilService {
     const url = new URL(options.url);
     if (url.hostname !== "localhost" && url.hostname !== "127.0.0.1") {
       throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
+        "@foundry-rs/hardhat-anvil",
         "Anvil network only works with localhost"
       );
     }
