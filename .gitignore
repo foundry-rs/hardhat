@@ -1,3 +1,6 @@
+out/
+cache/
+
 # Allow a dummy project in this directory for testing purposes
 myproject
 
