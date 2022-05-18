@@ -1,6 +1,6 @@
 {
     "name": "@foundry-rs/hardhat",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Foundry's hardhat plugin",
     "homepage": "https://github.com/foundry-rs/hardhat",
     "repository": "github:foundry-rs/hardhat",
@@ -34,7 +34,7 @@
         "README.md"
     ],
     "dependencies": {
-        "@foundry-rs/easy-foundryup": "^0.1.1",
+        "@foundry-rs/easy-foundryup": "^0.1.2",
         "@types/sinon-chai": "^3.2.3",
         "@types/web3": "1.0.19",
         "debug": "^4.1.1",
