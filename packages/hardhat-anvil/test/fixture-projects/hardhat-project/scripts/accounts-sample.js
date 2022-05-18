@@ -2,7 +2,7 @@
 const env = require("hardhat");
 
 async function main() {
-  const accounts = await env.network.provider.send("eth_accounts");
+  const accounts = await env.waffle.provider.send("eth_accounts");
 
   // Test for existence
   if (!accounts) {

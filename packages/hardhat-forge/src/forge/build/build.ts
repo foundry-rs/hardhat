@@ -1,5 +1,6 @@
 // bindings for forge build
 import { spawn as spawn } from "child_process";
+import * as foundryup from "@foundry-rs/easy-foundryup";
 import {
   compilerArgs,
   CompilerArgs,
@@ -28,8 +29,9 @@ export declare interface ForgeBuildArgs extends CompilerArgs, ProjectPathArgs {
  */
 export async function spawnBuild(opts: ForgeBuildArgs): Promise<boolean> {
   const args = ["build", ...buildArgs(opts)];
+  const forgeCmd = await foundryup.getForgeCommand();
   return new Promise((resolve) => {
-    const process = spawn("forge", args, {
+    const process = spawn(forgeCmd, args, {
       stdio: "inherit",
     });
     process.on("exit", (code) => {

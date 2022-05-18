@@ -8,12 +8,13 @@ const log = debug("hardhat:plugin:anvil-service");
 export declare interface AnvilOptions {
   url: string;
   accountKeysPath?: string; // Translates to: account_keys_path
-  accounts?: object[];
+  accounts?: object[] | object;
+  hostname?: string;
   allowUnlimitedContractSize?: boolean;
   blockTime?: number;
   launch?: boolean; // whether to launch the server at all
   defaultBalanceEther?: number; // Translates to: default_balance_ether
-  fork?: string | object;
+  forkUrl?: string | object;
   forkBlockNumber?: string | number; // Translates to: fork_block_number
   gasLimit?: number;
   gasPrice?: string | number;
@@ -38,27 +39,62 @@ const DEFAULT_PORT = 8545;
 
 export class AnvilService {
   public static error?: Error;
-  public static optionValidator: any;
+
+  public static getDefaultAccountConfig(): AnvilOptions {
+    return {
+      locked: false,
+      hdPath: "m/44'/60'/0'/0/",
+      mnemonic: "test test test test test test test test test test test junk",
+      ...AnvilService.getDefaultOptions(),
+    };
+  }
 
   public static getDefaultOptions(): AnvilOptions {
     return {
-      url: `http://127.0.0.1:${DEFAULT_PORT}`,
-      gasPrice: 20000000000,
-      gasLimit: 6721975,
+      url: `http://127.0.0.1:${DEFAULT_PORT}/`,
       launch: true,
     };
   }
 
-  public static async create(options: any): Promise<AnvilService> {
+  /**
+   *
+   * @param options
+   * @returns type checked options for `anvil`
+   */
+  public static async getCheckedArgs(options: any): Promise<AnvilOptions> {
     // Get and initialize option validator
     const { default: optionsSchema } = await import("./anvil-options-ti");
     const { createCheckers } = await import("ts-interface-checker");
     const { AnvilOptionsTi } = createCheckers(optionsSchema);
-    AnvilService.optionValidator = AnvilOptionsTi;
 
-    const Anvil = AnvilServer.launch(options);
+    // Validate all options against the validator
+    try {
+      AnvilOptionsTi.check(options);
+    } catch (e: any) {
+      throw new NomicLabsHardhatPluginError(
+        "@nomiclabs/hardhat-anvil",
+        `Anvil network config is invalid: ${e.message}`,
+        e
+      );
+    }
 
-    return new AnvilService(Anvil, options);
+    // Validate and parse hostname and port from URL (this validation is priority)
+    const url = new URL(options.url);
+    if (url.hostname !== "localhost" && url.hostname !== "127.0.0.1") {
+      throw new NomicLabsHardhatPluginError(
+        "@nomiclabs/hardhat-anvil",
+        "Anvil network only works with localhost"
+      );
+    }
+
+    return options as AnvilOptions;
+  }
+
+  public static async create(options: any): Promise<AnvilService> {
+    const args = await AnvilService.getCheckedArgs(options);
+    const Anvil = await AnvilServer.launch(args);
+
+    return new AnvilService(Anvil, args);
   }
 
   private readonly _server: any;
@@ -70,67 +106,7 @@ export class AnvilService {
     this._options = options;
   }
 
-  private _validateAndTransformOptions(options: AnvilOptions): any {
-    const validatedOptions: any = options;
-
-    // Validate and parse hostname and port from URL (this validation is priority)
-    const url = new URL(options.url);
-    if (url.hostname !== "localhost" && url.hostname !== "127.0.0.1") {
-      throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
-        "Anvil network only works with localhost"
-      );
-    }
-
-    // Validate all options agains validator
-    try {
-      AnvilService.optionValidator.check(options);
-    } catch (e: any) {
-      throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
-        `Anvil network config is invalid: ${e.message}`,
-        e
-      );
-    }
-
-    // Test for unsupported commands
-    if (options.accounts !== undefined) {
-      throw new NomicLabsHardhatPluginError(
-        "@nomiclabs/hardhat-anvil",
-        "Config: anvil.accounts unsupported for this network"
-      );
-    }
-
-    // Transform needed options to Anvil core server (not using SnakeCase lib for performance)
-    validatedOptions.hostname = url.hostname;
-
-    validatedOptions.port =
-      url.port !== undefined && url.port !== ""
-        ? parseInt(url.port, 10)
-        : DEFAULT_PORT;
-
-    const optionsToInclude = [
-      "accountsKeyPath",
-      "dbPath",
-      "defaultBalanceEther",
-      "totalAccounts",
-      "unlockedAccounts",
-    ];
-    for (const [key, value] of Object.entries(options)) {
-      if (value !== undefined && optionsToInclude.includes(key)) {
-        validatedOptions[this._snakeCase(key)] = value;
-        delete validatedOptions[key];
-      }
-    }
-
-    return validatedOptions;
-  }
-
   public stopServer() {
     this._server.kill();
-  }
-
-  private _snakeCase(str: string) {
-    return str.replace(/([A-Z]){1}/g, (match) => `_${match.toLowerCase()}`);
   }
 }

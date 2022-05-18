@@ -9,7 +9,7 @@ This plugin provides bindings for `forge` commands as hardhat tasks.
 ## Installation
 
 ```bash
-npm install --save-dev @foundry-r/hardhat-forge
+npm install --save-dev @foundry-rs/hardhat-forge
 ```
 
 And add the following statement to your `hardhat.config.js`:
