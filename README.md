@@ -18,4 +18,4 @@ See in each plugin
 
 ## Contributing
 
-See [contributing guidlines](https://github.com/foundry-rs/foundry/blob/master/CONTRIBUTING.md)
+See [contributing guidelines](https://github.com/foundry-rs/foundry/blob/master/CONTRIBUTING.md)

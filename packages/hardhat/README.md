@@ -8,7 +8,7 @@ See in each plugin
 
 - [anvil](../hardhat-anvil/README.md)
 - [forge](../hardhat-forge/README.md)
-- [foundryup](.,/easy-foundryup/README.md)
+- [foundryup](../easy-foundryup/README.md)
 
 ## LICENSE
 
