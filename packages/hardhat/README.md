@@ -6,7 +6,7 @@ Aggregated foundry hardhat plugin
 
 See in each plugin
 
-- [anvil](../hardhat-anvil/README.md) 
+- [anvil](../hardhat-anvil/README.md)
 - [forge](../hardhat-forge/README.md)
 - [foundryup](../easy-foundryup/README.md)
 
