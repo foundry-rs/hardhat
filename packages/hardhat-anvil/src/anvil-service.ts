@@ -90,9 +90,12 @@ export class AnvilService {
     return options as AnvilOptions;
   }
 
-  public static async create(options: any): Promise<AnvilService> {
+  public static async create(
+    options: any,
+    inherit: boolean = false
+  ): Promise<AnvilService> {
     const args = await AnvilService.getCheckedArgs(options);
-    const Anvil = await AnvilServer.launch(args);
+    const Anvil = await AnvilServer.launch(args, inherit);
 
     return new AnvilService(Anvil, args);
   }
@@ -108,5 +111,9 @@ export class AnvilService {
 
   public stopServer() {
     this._server.kill();
+  }
+
+  public async waitUntilClosed(): Promise<void> {
+    return this._server.waitUntilClosed();
   }
 }

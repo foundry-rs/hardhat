@@ -90,6 +90,12 @@ describe("Anvil plugin with custom configs", function () {
     }
   });
 
+  it("Should add run anvil node", async function () {
+    void this.env.run("node");
+    // ensure we don't wait forever
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+  });
+
   // it("Should run Hardhat RUN task using Anvil with custom configs", async function () {
   //   await this.env.run("run", {
   //     noCompile: true,
