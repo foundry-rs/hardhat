@@ -1,35 +1,28 @@
 import debug from "debug";
 import {
   TASK_NODE,
-  TASK_NODE_CREATE_SERVER,
   TASK_NODE_GET_PROVIDER,
-  TASK_NODE_SERVER_CREATED,
-  TASK_NODE_SERVER_READY,
   TASK_RUN,
   TASK_TEST,
 } from "hardhat/builtin-tasks/task-names";
-import { extendConfig, task, extendEnvironment, subtask } from "hardhat/config";
+import { extendConfig, extendEnvironment, subtask, task } from "hardhat/config";
 import {
   EthereumProvider,
   HardhatRuntimeEnvironment,
-  JsonRpcServer,
   RunSuperFunction,
   TaskArguments,
 } from "hardhat/types";
 import { lazyObject } from "hardhat/plugins";
 import { HardhatError } from "hardhat/internal/core/errors";
 import { ERRORS } from "hardhat/internal/core/errors-list";
-import { watchCompilerOutput } from "hardhat/builtin-tasks/utils/watch";
 import { createProvider } from "hardhat/internal/core/providers/construction";
-import chalk from "chalk";
-import { Reporter } from "hardhat/internal/sentry/reporter";
 import { getDeployMockContract, hardhatDeployContract } from "./deploy";
 import { getLinkFunction } from "./link";
 import { initializeWaffleMatchers } from "./matchers";
 import "./type-extensions";
 import { AnvilService } from "./anvil-service";
 
-export declare const ANVIL_NETWORK_NAME = "anvil";
+export const ANVIL_NETWORK_NAME = "anvil";
 
 const log = debug("hardhat:plugin:anvil");
 
@@ -70,7 +63,7 @@ task(TASK_RUN, async (_args, env, runSuper) => {
 });
 
 task(TASK_NODE, "Starts Anvil RPC server").setAction(
-  async (opts: any, { config, hardhatArguments, network, run }) => {
+  async (opts: any, { hardhatArguments, network }) => {
     // we throw if the user specified a network argument and it's not hardhat
     if (
       network.name !== ANVIL_NETWORK_NAME &&
@@ -79,58 +72,14 @@ task(TASK_NODE, "Starts Anvil RPC server").setAction(
       throw new HardhatError(ERRORS.BUILTIN_TASKS.JSONRPC_UNSUPPORTED_NETWORK);
     }
 
-    const args = await AnvilService.getCheckedArgs(opts);
+    const args = await AnvilService.getCheckedArgs({
+      ...opts,
+      ...network.config,
+    });
 
-    // the default hostname is "127.0.0.1"
-    const hostname = args.hostname ?? "127.0.0.1";
-    const port = args.port;
+    // launch anvil
+    const server = await AnvilService.create(args, true);
     try {
-      const provider: EthereumProvider = await run(TASK_NODE_GET_PROVIDER, {
-        forkBlockNumber: args.forkBlockNumber,
-        forkUrl: args.forkUrl,
-      });
-
-      const server: JsonRpcServer = await run(TASK_NODE_CREATE_SERVER, {
-        hostname,
-        port,
-        provider,
-      });
-
-      await run(TASK_NODE_SERVER_CREATED, {
-        hostname,
-        port,
-        provider,
-        server,
-      });
-
-      const { port: actualPort, address } = await server.listen();
-
-      try {
-        await watchCompilerOutput(provider, config.paths);
-      } catch (error) {
-        console.warn(
-          chalk.yellow(
-            "There was a problem watching the compiler output, changes in the contracts won't be reflected in the Hardhat Network. Run Hardhat with --verbose to learn more."
-          )
-        );
-
-        log(
-          "Compilation output can't be watched. Please report this to help us improve Hardhat.\n",
-          error
-        );
-
-        if (error instanceof Error) {
-          Reporter.reportError(error);
-        }
-      }
-
-      await run(TASK_NODE_SERVER_READY, {
-        address,
-        port: actualPort,
-        provider,
-        server,
-      });
-
       await server.waitUntilClosed();
     } catch (error) {
       if (HardhatError.isHardhatError(error)) {
