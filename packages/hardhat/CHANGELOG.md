@@ -1,5 +1,12 @@
 # @foundry-rs/hardhat
 
+## 0.1.4
+
+### Patch Changes
+
+- 373974f: use correct output dir for main entry
+- 373974f: add test change
+
 ## 0.1.3
 
 ### Patch Changes

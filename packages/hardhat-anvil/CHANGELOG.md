@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-anvil
 
+## 0.1.3
+
+### Patch Changes
+
+- 373974f: use correct output dir for main entry
+
 ## 0.1.2
 
 ### Patch Changes
