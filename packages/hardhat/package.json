@@ -42,6 +42,7 @@
         "ts-interface-checker": "^0.1.9"
     },
     "devDependencies": {
+        "@foundry-rs/hardhat-anvil": "^0.1.1",
         "@nomiclabs/eslint-plugin-hardhat-internal-rules": "^1.0.0",
         "@nomiclabs/hardhat-ethers": "^2.0.0",
         "@types/chai": "^4.2.0",
