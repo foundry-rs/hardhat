@@ -73,6 +73,7 @@ task(TASK_NODE, "Starts Anvil RPC server").setAction(
     }
 
     const args = await AnvilService.getCheckedArgs({
+      ...AnvilService.getDefaultAccountConfig(),
       ...opts,
       ...network.config,
     });
@@ -177,7 +178,6 @@ subtask(TASK_NODE_GET_PROVIDER).setAction(
 
 extendConfig((resolvedConfig: any, config: any) => {
   const defaultOptions = AnvilService.getDefaultAccountConfig();
-
   if (config.networks && config.networks.anvil) {
     const customOptions = config.networks.anvil;
     resolvedConfig.networks.anvil = { ...defaultOptions, ...customOptions };
