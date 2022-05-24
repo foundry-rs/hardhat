@@ -13,6 +13,12 @@ describe("Integration tests", function () {
     it("Should build", async function () {
       await this.hre.run("compile", {});
     });
+
+    it("Should add run anvil node", async function () {
+      void this.hre.run("node");
+      // ensure we don't wait forever
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    });
   });
   describe("Hardhat Runtime Environment extension", function () {
     useEnvironment("no-anvil-config");
