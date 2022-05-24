@@ -1,2 +1,2 @@
-import "../../hardhat-forge/src/index";
-import "../../hardhat-anvil/src/index";
+import "@foundry-rs/hardhat-forge";
+import "@foundry-rs/hardhat-anvil";
