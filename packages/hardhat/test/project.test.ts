@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 import { assert } from "chai";
-import { AnvilService } from "@foundry-rs/hardhat-anvil/dist/src/anvil-service";
+import { AnvilService } from "@foundry-rs/hardhat-anvil/src/anvil-service";
 import { useEnvironment } from "./helpers";
 
 describe("Integration tests", function () {
