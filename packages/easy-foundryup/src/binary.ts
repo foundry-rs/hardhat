@@ -208,7 +208,7 @@ function checkCommandSync(cmd: string): boolean {
     execSync(cmd);
     return true;
   } catch (error) {
-    const status = error.status === 0;
+    const status = (error as any).status === 0;
     if (!status) {
       console.error(
         "Command failed. Is Foundry not installed? Consider installing via `curl -L https://foundry.paradigm.xyz | bash` and then running `foundryup` on a new terminal. For more context, check the installation instructions in the book: https://book.getfoundry.sh/getting-started/installation.html."

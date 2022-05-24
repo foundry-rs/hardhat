@@ -71,10 +71,11 @@ export class AnvilService {
     try {
       AnvilOptionsTi.check(options);
     } catch (e) {
+      const err = e as any;
       throw new NomicLabsHardhatPluginError(
         "@foundry-rs/hardhat-anvil",
-        `Anvil network config is invalid: ${e.message}`,
-        e
+        `Anvil network config is invalid: ${err.message}`,
+        err
       );
     }
 
