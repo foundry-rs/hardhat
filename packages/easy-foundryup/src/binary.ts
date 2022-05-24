@@ -207,7 +207,7 @@ function checkCommandSync(cmd: string): boolean {
   try {
     execSync(cmd);
     return true;
-  } catch (error: any) {
+  } catch (error) {
     const status = error.status === 0;
     if (!status) {
       console.error(

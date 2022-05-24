@@ -70,7 +70,7 @@ export class AnvilService {
     // Validate all options against the validator
     try {
       AnvilOptionsTi.check(options);
-    } catch (e: any) {
+    } catch (e) {
       throw new NomicLabsHardhatPluginError(
         "@foundry-rs/hardhat-anvil",
         `Anvil network config is invalid: ${e.message}`,
