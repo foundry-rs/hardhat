@@ -57,14 +57,14 @@ export class ForgeArtifacts implements IArtifacts {
   ): Artifact {
     const { abi, bytecode, deployedBytecode } = artifact;
     const hhArtifact = {
+      _format: ARTIFACT_FORMAT_VERSION,
+      contractName: name,
+      sourceName: this._getFullyQualifiedNameFromPath(artifactPath),
       abi,
       bytecode: bytecode.object,
-      contractName: name,
       deployedBytecode: deployedBytecode.object,
-      deployedLinkReferences: bytecode.linkReferences,
       linkReferences: deployedBytecode.linkReferences,
-      sourceName: this._getFullyQualifiedNameFromPath(artifactPath),
-      _format: ARTIFACT_FORMAT_VERSION,
+      deployedLinkReferences: bytecode.linkReferences,
     };
     return hhArtifact as Artifact;
   }
