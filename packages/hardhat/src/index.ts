@@ -1,2 +1,2 @@
-import "@foundry-rs/hardhat-forge";
-import "@foundry-rs/hardhat-anvil";
+export * as forge from "@foundry-rs/hardhat-forge";
+export * as anvil from "@foundry-rs/hardhat-anvil";
