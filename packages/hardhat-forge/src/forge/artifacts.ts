@@ -28,7 +28,12 @@ import {
 import { ForgeArtifact } from "./types";
 
 export class ForgeArtifacts implements IArtifacts {
-  constructor(private _out: string, private _cache: string) {}
+  constructor(
+    private _root: string,
+    private _sources: string,
+    private _out: string,
+    private _cache: string
+  ) {}
 
   public async readArtifact(name: string): Promise<Artifact> {
     const artifactPath = await this._getArtifactPath(name);
@@ -472,6 +477,32 @@ Please replace "${contractName}" for the correct contract name wherever you are 
     }
 
     return undefined;
+  }
+
+  /**
+   * Given the path to a directory, hardhat style artifacts will
+   * be written to disk
+   */
+  public writeArtifactsSync(outDir: string) {
+    const paths = this._getArtifactPathsSync();
+    const artifacts = path.relative(this._root, outDir);
+
+    for (const filepath of paths) {
+      const forgeArtifact = fsExtra.readJsonSync(filepath) as ForgeArtifact;
+      const artifact = this.readArtifactSync(path.parse(filepath).name);
+
+      const contractPath = forgeArtifact.ast?.absolutePath;
+      if (!contractPath) {
+        throw new Error(
+          `Must compile with ast to build harhat style artifacts`
+        );
+      }
+
+      const dir = path.join(this._root, artifacts, contractPath);
+      const out = path.join(dir, path.basename(filepath));
+      fsExtra.mkdirpSync(path.dirname(out));
+      fsExtra.writeJsonSync(out, artifact, { spaces: 2 });
+    }
   }
 }
 
