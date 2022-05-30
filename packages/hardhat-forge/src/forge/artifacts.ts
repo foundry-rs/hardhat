@@ -30,7 +30,6 @@ import { ForgeArtifact } from "./types";
 export class ForgeArtifacts implements IArtifacts {
   constructor(
     private _root: string,
-    private _sources: string,
     private _out: string,
     private _cache: string
   ) {}
@@ -48,6 +47,18 @@ export class ForgeArtifacts implements IArtifacts {
     const forgeArtifact = fsExtra.readJsonSync(artifactPath) as ForgeArtifact;
     return this.convertForgeArtifact(forgeArtifact, artifactPath, name);
   }
+
+  /**
+   * Noop so that runSuper can be called
+   */
+  public addValidArtifacts(
+    _validArtifacts: Array<{ sourceName: string; artifacts: string[] }>
+  ) {}
+
+  /**
+   * Noop so that runSuper can be called
+   */
+  public async removeObsoleteArtifacts() {}
 
   /**
    * Converts a forge artifact to a hardhat style `Artifact`
