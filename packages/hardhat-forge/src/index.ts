@@ -23,7 +23,6 @@ extendEnvironment((hre) => {
 
     const artifacts = new ForgeArtifacts(
       hre.config.paths.root,
-      config.src,
       outDir,
       cacheDir
     );
