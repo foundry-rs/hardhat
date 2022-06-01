@@ -1,5 +1,6 @@
 import { assert } from "chai";
-import { useEnvironment } from "./helpers";
+import path from "path";
+import { useEnvironment, getAllFiles } from "./helpers";
 
 describe("Integration tests", function () {
   this.timeout(300000);
@@ -33,6 +34,19 @@ describe("Integration tests", function () {
       assert.exists(contract.deployedLinkReferences);
       assert.exists(contract.contractName);
       assert.exists(contract.sourceName);
+    });
+
+    it("Should write artifacts to disk", async function () {
+      const artifacts = await this.hre.artifacts.getArtifactPaths();
+      const files = await getAllFiles(this.hre.config.paths.artifacts);
+      assert.equal(artifacts.length, files.length);
+
+      for (const file of files) {
+        const name = path.basename(file);
+        assert(artifacts.map((a) => path.basename(a)).includes(name));
+        const artifact = require(file);
+        assert.equal(artifact.contractName, path.basename(name, ".json"));
+      }
     });
   });
 });

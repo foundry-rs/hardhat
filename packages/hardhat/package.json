@@ -5,8 +5,8 @@
     "homepage": "https://github.com/foundry-rs/hardhat",
     "repository": "github:foundry-rs/hardhat",
     "license": "MIT",
-    "main": "dist/hardhat/src/index.js",
-    "types": "dist/hardhat/src/index.d.ts",
+    "main": "dist/src/index.js",
+    "types": "dist/src/index.d.ts",
     "keywords": [
         "ethereum",
         "smart-contracts",
@@ -35,8 +35,11 @@
     ],
     "dependencies": {
         "@foundry-rs/easy-foundryup": "^0.1.2",
+        "@foundry-rs/hardhat-anvil": "^0.1.1",
+        "@foundry-rs/hardhat-forge": "^0.1.1",
         "@types/sinon-chai": "^3.2.3",
         "@types/web3": "1.0.19",
+        "camelcase-keys": "^7.0.2",
         "debug": "^4.1.1",
         "ethers": "^5.0.0",
         "ts-interface-checker": "^0.1.9"

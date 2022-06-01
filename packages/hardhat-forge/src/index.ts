@@ -20,6 +20,14 @@ extendEnvironment((hre) => {
       config.cache_path ?? "cache",
       SOLIDITY_FILES_CACHE_FILENAME
     );
-    return new ForgeArtifacts(outDir, cacheDir);
+
+    const artifacts = new ForgeArtifacts(
+      hre.config.paths.root,
+      outDir,
+      cacheDir
+    );
+
+    artifacts.writeArtifactsSync(hre.config.paths.artifacts);
+    return artifacts;
   });
 });

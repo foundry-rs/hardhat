@@ -20,7 +20,6 @@ export class AnvilServer {
   ): Promise<AnvilServer> {
     log("Launching anvil");
     let anvil: any;
-
     if (options.launch) {
       const anvilPath = options.path ?? (await getAnvilCommand());
       const args = [];
@@ -49,7 +48,9 @@ export class AnvilServer {
         args.push("--gas-limit", options.gasLimit);
       }
       if (options.gasPrice) {
-        args.push("--gas-price", options.gasPrice);
+        if (options.gasPrice !== "auto") {
+          args.push("--gas-price", options.gasPrice);
+        }
       }
       if (options.chainId) {
         args.push("--chain-id", options.chainId);
@@ -64,7 +65,9 @@ export class AnvilServer {
         args.push("--no-storage-caching");
       }
       if (options.hardfork) {
-        args.push("--hardfork", options.hardfork);
+        if (options.hardfork !== "arrowGlacier") {
+          args.push("--hardfork", options.hardfork);
+        }
       }
 
       const opts = inherit ? { stdio: "inherit" } : {};

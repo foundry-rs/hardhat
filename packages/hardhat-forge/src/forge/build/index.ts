@@ -14,9 +14,10 @@ registerProjectPathArgs(registerCompilerArgs(task("compile")))
     "viaIr",
     "Use the Yul intermediate representation compilation pipeline."
   )
-  .setAction(async (args, {}) => {
+  .setAction(async (args, {}, runSuper) => {
     const buildArgs = await getCheckedArgs(args);
     await spawnBuild(buildArgs);
+    await runSuper(args);
   });
 
 async function getCheckedArgs(args: any): Promise<ForgeBuildArgs> {

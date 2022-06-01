@@ -28,7 +28,11 @@ import {
 import { ForgeArtifact } from "./types";
 
 export class ForgeArtifacts implements IArtifacts {
-  constructor(private _out: string, private _cache: string) {}
+  constructor(
+    private _root: string,
+    private _out: string,
+    private _cache: string
+  ) {}
 
   public async readArtifact(name: string): Promise<Artifact> {
     const artifactPath = await this._getArtifactPath(name);
@@ -45,6 +49,18 @@ export class ForgeArtifacts implements IArtifacts {
   }
 
   /**
+   * Noop so that runSuper can be called
+   */
+  public addValidArtifacts(
+    _validArtifacts: Array<{ sourceName: string; artifacts: string[] }>
+  ) {}
+
+  /**
+   * Noop so that runSuper can be called
+   */
+  public async removeObsoleteArtifacts() {}
+
+  /**
    * Converts a forge artifact to a hardhat style `Artifact`
    * @param artifact
    * @param artifactPath
@@ -57,14 +73,14 @@ export class ForgeArtifacts implements IArtifacts {
   ): Artifact {
     const { abi, bytecode, deployedBytecode } = artifact;
     const hhArtifact = {
+      _format: ARTIFACT_FORMAT_VERSION,
+      contractName: name,
+      sourceName: this._getFullyQualifiedNameFromPath(artifactPath),
       abi,
       bytecode: bytecode.object,
-      contractName: name,
       deployedBytecode: deployedBytecode.object,
-      deployedLinkReferences: bytecode.linkReferences,
       linkReferences: deployedBytecode.linkReferences,
-      sourceName: this._getFullyQualifiedNameFromPath(artifactPath),
-      _format: ARTIFACT_FORMAT_VERSION,
+      deployedLinkReferences: bytecode.linkReferences,
     };
     return hhArtifact as Artifact;
   }
@@ -472,6 +488,32 @@ Please replace "${contractName}" for the correct contract name wherever you are 
     }
 
     return undefined;
+  }
+
+  /**
+   * Given the path to a directory, hardhat style artifacts will
+   * be written to disk
+   */
+  public writeArtifactsSync(outDir: string) {
+    const paths = this._getArtifactPathsSync();
+    const artifacts = path.relative(this._root, outDir);
+
+    for (const filepath of paths) {
+      const forgeArtifact = fsExtra.readJsonSync(filepath) as ForgeArtifact;
+      const artifact = this.readArtifactSync(path.parse(filepath).name);
+
+      const contractPath = forgeArtifact.ast?.absolutePath;
+      if (!contractPath) {
+        throw new Error(
+          `Must compile with ast to build harhat style artifacts`
+        );
+      }
+
+      const dir = path.join(this._root, artifacts, contractPath);
+      const out = path.join(dir, path.basename(filepath));
+      fsExtra.mkdirpSync(path.dirname(out));
+      fsExtra.writeJsonSync(out, artifact, { spaces: 2 });
+    }
   }
 }
 

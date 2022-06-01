@@ -63,10 +63,25 @@ module.exports = {
   defaultNetwork: "anvil",
     anvil: {
       url: "http://127.0.0.1:8545/",
-      launch: false, // if set to true, it will spawn a new instance if the plugin is initialized
-    },
-  },
+      launch: false, // if set to `true`, it will spawn a new instance if the plugin is initialized, if set to `false` it expects an already running anvil instance
+    }
+  }
 };
+```
+
+By default, the `anvil` object will be configured as
+
+```js
+{
+  hdPath: "m/44'/60'/0'/0/",
+  mnemonic: 'test test test test test test test test test test test junk',
+  url: 'http://127.0.0.1:8545/',
+  launch: true,
+  accounts: {
+    mnemonic: 'test test test test test test test test test test test junk',
+    path: "m/44'/60'/0'/0/"
+  }
+}
 ```
 
 ## LICENSE
