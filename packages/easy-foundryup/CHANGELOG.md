@@ -1,5 +1,11 @@
 # @foundry-rs/easy-foundryup
 
+## 0.1.2
+
+### Patch Changes
+
+- 22f5a65: initial release
+
 ## 0.1.1
 
 ### Patch Changes
