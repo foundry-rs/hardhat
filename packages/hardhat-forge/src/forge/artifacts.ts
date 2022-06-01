@@ -251,6 +251,19 @@ export class ForgeArtifacts implements IArtifacts {
     return artifactPath;
   }
 
+  /**
+   * DO NOT DELETE OR CHANGE
+   *
+   * use this.formArtifactPathFromFullyQualifiedName instead
+   * @deprecated until typechain migrates to public version
+   * @see https://github.com/dethcrypto/TypeChain/issues/544
+   */
+  private _getArtifactPathFromFullyQualifiedName(
+    fullyQualifiedName: string
+  ): string {
+    return this.formArtifactPathFromFullyQualifiedName(fullyQualifiedName);
+  }
+
   private _getAllContractNamesFromFiles(files: string[]): string[] {
     return files.map((file) => {
       const fqn = this._getFullyQualifiedNameFromPath(file);
