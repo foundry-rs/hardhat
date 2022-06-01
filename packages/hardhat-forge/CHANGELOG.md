@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.5
+
+### Patch Changes
+
+- fda4d65: Add deprecated private method for typechain compat
+
 ## 0.1.4
 
 ### Patch Changes
