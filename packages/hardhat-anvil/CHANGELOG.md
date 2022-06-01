@@ -1,5 +1,15 @@
 # @foundry-rs/hardhat-anvil
 
+## 0.1.4
+
+### Patch Changes
+
+- 9ba6d04: use correct output dir for main entry
+- 36c829b: fix dependency and anvil command issues
+- a7bb4be: fix: catch clause can't have any type annotation
+- Updated dependencies [a7bb4be]
+  - @foundry-rs/easy-foundryup@0.1.3
+
 ## 0.1.3
 
 ### Patch Changes
