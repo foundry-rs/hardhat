@@ -48,5 +48,22 @@ describe("Integration tests", function () {
         assert.equal(artifact.contractName, path.basename(name, ".json"));
       }
     });
+
+    it("Should return build info", async function () {
+      const info = await this.hre.artifacts.getBuildInfo("Contract");
+      assert.exists(info);
+      const contract = info?.output.contracts["src/Contract.sol"].Contract!;
+      assert.exists(contract);
+      assert.exists(contract.abi);
+      assert.exists((contract as any).devdoc);
+      assert.exists((contract as any).metadata);
+      assert.exists((contract as any).storageLayout);
+      assert.exists((contract as any).userdoc);
+      assert.exists(contract.evm);
+      assert.exists(contract.evm.bytecode);
+      assert.exists(contract.evm.bytecode.object);
+      assert.exists(contract.evm.deployedBytecode);
+      assert.exists(contract.evm.deployedBytecode.object);
+    });
   });
 });

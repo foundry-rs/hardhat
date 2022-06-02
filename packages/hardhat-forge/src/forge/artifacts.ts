@@ -99,10 +99,86 @@ export class ForgeArtifacts implements IArtifacts {
     return paths.map((p) => this._getFullyQualifiedNameFromPath(p)).sort();
   }
 
+  /**
+   * Dynamically generate a build artifact for a contract.
+   * In practice, hardhat build artifacts are decorated
+   * with additional fields on top of the `BuildInfo`
+   * type. Fields that foundry cannot fill in are currently
+   * left blank. `extra_output` must be configured for some
+   * fields to be populated
+   */
   public async getBuildInfo(
-    _fullyQualifiedName: string
+    fullyQualifiedName: string
   ): Promise<BuildInfo | undefined> {
-    return undefined;
+    const artifactPath = await this._getArtifactPath(fullyQualifiedName);
+    try {
+      const forgeArtifact = (await fsExtra.readJson(
+        artifactPath
+      )) as ForgeArtifact;
+
+      if (!forgeArtifact.ast) {
+        throw new Error("Must compile with ast");
+      }
+
+      const relativePath = forgeArtifact.ast.absolutePath;
+
+      return {
+        _format: "hh-sol-build-info-1",
+        id: "",
+        solcVersion: "",
+        solcLongVersion: "",
+        input: {
+          language: "",
+          sources: {},
+          settings: {
+            optimizer: {},
+            metadata: { useLiteralContent: true },
+            outputSelection: {},
+            evmVersion: "",
+            libraries: {},
+          },
+        },
+        output: {
+          sources: {
+            [fullyQualifiedName]: {
+              id: 0,
+              ast: forgeArtifact.ast,
+            },
+          },
+          contracts: {
+            [relativePath]: {
+              [fullyQualifiedName]: {
+                abi: forgeArtifact.abi,
+                devdoc: forgeArtifact.devdoc,
+                metadata: forgeArtifact.metadata,
+                storageLayout: forgeArtifact.storageLayout,
+                userdoc: forgeArtifact.userdoc,
+                evm: {
+                  bytecode: {
+                    object: forgeArtifact.bytecode.object!,
+                    opcodes: "",
+                    sourceMap: forgeArtifact.bytecode.sourceMap!,
+                    linkReferences: forgeArtifact.bytecode.linkReferences,
+                    immutableReferences: {},
+                  },
+                  deployedBytecode: {
+                    object: forgeArtifact.deployedBytecode.object!,
+                    opcodes: "",
+                    sourceMap: forgeArtifact.deployedBytecode.sourceMap!,
+                    linkReferences:
+                      forgeArtifact.deployedBytecode.linkReferences,
+                    immutableReferences: {},
+                  },
+                  methodIdentifiers: forgeArtifact.methodIdentifiers,
+                },
+              },
+            },
+          },
+        },
+      } as any;
+    } catch (e) {
+      return undefined;
+    }
   }
 
   public async getArtifactPaths(): Promise<string[]> {
