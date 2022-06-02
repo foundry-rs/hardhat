@@ -2,7 +2,6 @@
 pragma solidity ^0.8.13;
 
 contract Contract {
-
-  function example() public {}
-  
+    uint256 public bar;
+    function example() public {}
 }
