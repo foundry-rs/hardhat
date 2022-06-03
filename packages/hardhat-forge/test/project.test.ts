@@ -25,6 +25,7 @@ describe("Integration tests", function () {
       const artifacts = await this.hre.artifacts.getArtifactPaths();
       assert.isNotEmpty(artifacts);
       const contract = await this.hre.artifacts.readArtifact("Contract");
+      assert.equal(contract.sourceName, "src/Contract.sol");
       assert.exists(contract.abi);
       assert.exists(contract.bytecode);
       assert.typeOf(contract.bytecode, "string");

@@ -39,13 +39,13 @@ export class ForgeArtifacts implements IArtifacts {
     const forgeArtifact = (await fsExtra.readJson(
       artifactPath
     )) as ForgeArtifact;
-    return this.convertForgeArtifact(forgeArtifact, artifactPath, name);
+    return this.convertForgeArtifact(forgeArtifact, name);
   }
 
   public readArtifactSync(name: string): Artifact {
     const artifactPath = this._getArtifactPathSync(name);
     const forgeArtifact = fsExtra.readJsonSync(artifactPath) as ForgeArtifact;
-    return this.convertForgeArtifact(forgeArtifact, artifactPath, name);
+    return this.convertForgeArtifact(forgeArtifact, name);
   }
 
   /**
@@ -66,16 +66,17 @@ export class ForgeArtifacts implements IArtifacts {
    * @param artifactPath
    * @param name
    */
-  public convertForgeArtifact(
-    artifact: ForgeArtifact,
-    artifactPath: string,
-    name: string
-  ): Artifact {
+  public convertForgeArtifact(artifact: ForgeArtifact, name: string): Artifact {
     const { abi, bytecode, deployedBytecode } = artifact;
+
+    if (!artifact.ast) {
+      throw new Error("Must compile with ast");
+    }
+
     const hhArtifact = {
       _format: ARTIFACT_FORMAT_VERSION,
       contractName: name,
-      sourceName: this._getFullyQualifiedNameFromPath(artifactPath),
+      sourceName: artifact.ast.absolutePath,
       abi,
       bytecode: bytecode.object,
       deployedBytecode: deployedBytecode.object,
