@@ -25,6 +25,7 @@ describe("Anvil plugin with empty configs", function () {
   it("Should run Hardhat TEST task using Anvil", async function () {
     const failures = await this.env.run("test", {
       testFiles: [],
+      port: this.freePort,
     });
 
     assert.equal(failures, 0);
@@ -34,6 +35,7 @@ describe("Anvil plugin with empty configs", function () {
     await this.env.run("run", {
       noCompile: true,
       script: "scripts/accounts-sample.js",
+      port: this.freePort,
     });
 
     assert.equal(process.exitCode, 0);
@@ -43,6 +45,7 @@ describe("Anvil plugin with empty configs", function () {
     await this.env.run("run", {
       noCompile: true,
       script: "scripts/delayed-sample.js",
+      port: this.freePort,
     });
 
     assert.equal(process.exitCode, 0);
@@ -91,7 +94,7 @@ describe("Anvil plugin with custom configs", function () {
   });
 
   it("Should add run anvil node", async function () {
-    void this.env.run("node");
+    void this.env.run("node", { port: this.freePort });
     // ensure we don't wait forever
     await new Promise((resolve) => setTimeout(resolve, 5000));
   });

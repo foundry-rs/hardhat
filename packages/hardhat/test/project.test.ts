@@ -15,7 +15,7 @@ describe("Integration tests", function () {
     });
 
     it("Should add run anvil node", async function () {
-      void this.hre.run("node");
+      void this.hre.run("node", { port: this.freePort });
       // ensure we don't wait forever
       await new Promise((resolve) => setTimeout(resolve, 5000));
     });
@@ -34,8 +34,8 @@ describe("Integration tests", function () {
       }
     });
 
-    it.only("Should add run anvil node", async function () {
-      void this.hre.run("node");
+    it("Should add run anvil node", async function () {
+      void this.hre.run("node", { port: this.freePort });
       // ensure we don't wait forever
       await new Promise((resolve) => setTimeout(resolve, 5000));
     });
