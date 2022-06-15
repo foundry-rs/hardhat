@@ -1,5 +1,17 @@
 # @foundry-rs/hardhat
 
+## 0.1.6
+
+### Patch Changes
+
+- e02aee0: fix flaky tests
+- Updated dependencies [e02aee0]
+- Updated dependencies [e02aee0]
+- Updated dependencies [e02aee0]
+- Updated dependencies [e02aee0]
+  - @foundry-rs/hardhat-forge@0.1.7
+  - @foundry-rs/hardhat-anvil@0.1.5
+
 ## 0.1.5
 
 ### Patch Changes
