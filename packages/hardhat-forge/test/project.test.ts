@@ -40,13 +40,27 @@ describe("Integration tests", function () {
     it("Should write artifacts to disk", async function () {
       const artifacts = await this.hre.artifacts.getArtifactPaths();
       const files = await getAllFiles(this.hre.config.paths.artifacts);
-      assert.equal(artifacts.length, files.length);
+      // filter out the debug files
+      const filtered = files.filter((f) => !f.includes(".dbg.json"));
+      assert.equal(artifacts.length, filtered.length);
 
-      for (const file of files) {
+      for (const file of filtered) {
         const name = path.basename(file);
         assert(artifacts.map((a) => path.basename(a)).includes(name));
         const artifact = require(file);
         assert.equal(artifact.contractName, path.basename(name, ".json"));
+      }
+    });
+
+    it("Should write debug files to disk", async function () {
+      const debugFilePaths = await this.hre.artifacts.getDebugFilePaths();
+      const artifactPaths = await this.hre.artifacts.getArtifactPaths();
+      assert.equal(debugFilePaths.length, artifactPaths.length);
+
+      for (const debugFile of debugFilePaths) {
+        const debug = require(debugFile);
+        assert.equal(debug._format, "hh-sol-dbg-1");
+        assert.exists(debug.buildInfo);
       }
     });
 
