@@ -63,4 +63,5 @@ export declare interface FoundryConfig {
   bytecode_hash?: string;
   revert_strings?: any;
   sparse_mode?: boolean;
+  build_info?: boolean;
 }
