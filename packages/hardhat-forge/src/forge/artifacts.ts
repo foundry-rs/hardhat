@@ -25,14 +25,35 @@ import {
   ARTIFACT_FORMAT_VERSION,
   EDIT_DISTANCE_THRESHOLD,
 } from "hardhat/internal/constants";
-import { ForgeArtifact } from "./types";
+import { ForgeArtifact, BuildInfoArtifact } from "./types";
 
 export class ForgeArtifacts implements IArtifacts {
+  private _buildInfos: BuildInfoArtifact[];
+
   constructor(
     private _root: string,
     private _out: string,
-    private _cache: string
-  ) {}
+    private _artifacts: string,
+    private _buildInfo: string,
+    private _useBuildInfo?: boolean
+  ) {
+    this._buildInfos = [];
+  }
+
+  /**
+   * Public getter for the build info files that caches
+   * reads. This assumes that no additional build info files
+   * are generated while this is running.
+   */
+  public get buildInfos() {
+    if (this._buildInfos.length === 0) {
+      for (const buildInfoPath of this.getBuildInfoPathsSync()) {
+        const buildInfo = fsExtra.readJsonSync(buildInfoPath) as BuildInfo;
+        this._buildInfos.push({ buildInfo, buildInfoPath });
+      }
+    }
+    return this._buildInfos;
+  }
 
   public async readArtifact(name: string): Promise<Artifact> {
     const artifactPath = await this._getArtifactPath(name);
@@ -111,88 +132,40 @@ export class ForgeArtifacts implements IArtifacts {
   public async getBuildInfo(
     fullyQualifiedName: string
   ): Promise<BuildInfo | undefined> {
-    const artifactPath = await this._getArtifactPath(fullyQualifiedName);
-    try {
-      const forgeArtifact = (await fsExtra.readJson(
-        artifactPath
-      )) as ForgeArtifact;
+    const forgeArtifact = await this._getArtifactPath(fullyQualifiedName);
+    const hardhatArtifact =
+      this._getHardhatArtifactPathFromForgePath(forgeArtifact);
+    const debugFilePath = this._getDebugFilePath(hardhatArtifact);
 
-      if (!forgeArtifact.ast) {
-        throw new Error("Must compile with ast");
-      }
-
-      const relativePath = forgeArtifact.ast.absolutePath;
-
-      return {
-        _format: "hh-sol-build-info-1",
-        id: "",
-        solcVersion: "",
-        solcLongVersion: "",
-        input: {
-          language: "",
-          sources: {},
-          settings: {
-            optimizer: {},
-            metadata: { useLiteralContent: true },
-            outputSelection: {},
-            evmVersion: "",
-            libraries: {},
-          },
-        },
-        output: {
-          sources: {
-            [fullyQualifiedName]: {
-              id: 0,
-              ast: forgeArtifact.ast,
-            },
-          },
-          contracts: {
-            [relativePath]: {
-              [fullyQualifiedName]: {
-                abi: forgeArtifact.abi,
-                devdoc: forgeArtifact.devdoc,
-                metadata: forgeArtifact.metadata,
-                storageLayout: forgeArtifact.storageLayout,
-                userdoc: forgeArtifact.userdoc,
-                evm: {
-                  bytecode: {
-                    object: forgeArtifact.bytecode.object!,
-                    opcodes: "",
-                    sourceMap: forgeArtifact.bytecode.sourceMap!,
-                    linkReferences: forgeArtifact.bytecode.linkReferences,
-                    immutableReferences: {},
-                  },
-                  deployedBytecode: {
-                    object: forgeArtifact.deployedBytecode.object!,
-                    opcodes: "",
-                    sourceMap: forgeArtifact.deployedBytecode.sourceMap!,
-                    linkReferences:
-                      forgeArtifact.deployedBytecode.linkReferences,
-                    immutableReferences: {},
-                  },
-                  methodIdentifiers: forgeArtifact.methodIdentifiers,
-                },
-              },
-            },
-          },
-        },
-      } as any;
-    } catch (e) {
+    const buildInfoPath = await this._getBuildInfoFromDebugFile(debugFilePath);
+    if (buildInfoPath === undefined) {
       return undefined;
     }
+
+    const buildInfo = fsExtra.readJsonSync(buildInfoPath) as BuildInfo;
+    return buildInfo;
   }
 
   public async getArtifactPaths(): Promise<string[]> {
-    const paths = await glob(path.join(this._out, "**/*.json"));
+    const paths = await glob(path.join(this._out, "**/*.json"), {
+      ignore: path.join(this._buildInfo, "*.json"),
+    });
     return paths.sort();
   }
 
   public async getBuildInfoPaths(): Promise<string[]> {
-    return [];
+    const paths = await glob(path.join(this._buildInfo, "*.json"));
+    return paths.sort();
+  }
+
+  public getBuildInfoPathsSync(): string[] {
+    const paths = globSync(path.join(this._buildInfo, "*.json"));
+    return paths.sort();
   }
 
   public async getDebugFilePaths(): Promise<string[]> {
-    return [];
+    const paths = await glob(path.join(this._artifacts, "**/*.dbg.json"));
+    return paths.sort();
   }
 
   public async saveArtifactAndDebugFile(
@@ -227,7 +200,9 @@ export class ForgeArtifacts implements IArtifacts {
   }
 
   private _getArtifactPathsSync(): string[] {
-    const paths = globSync(path.join(this._out, "**/*.json"));
+    const paths = globSync(path.join(this._out, "**/*.json"), {
+      ignore: path.join(this._buildInfo, "*.json"),
+    });
     return paths.sort();
   }
 
@@ -581,29 +556,58 @@ Please replace "${contractName}" for the correct contract name wherever you are 
   }
 
   /**
-   * Given the path to a directory, hardhat style artifacts will
-   * be written to disk
+   * Write hardhat style artifacts to disk
    */
-  public writeArtifactsSync(outDir: string) {
+  public writeArtifactsSync() {
     const paths = this._getArtifactPathsSync();
-    const artifacts = path.relative(this._root, outDir);
 
     for (const filepath of paths) {
-      const forgeArtifact = fsExtra.readJsonSync(filepath) as ForgeArtifact;
       const artifact = this.readArtifactSync(path.parse(filepath).name);
-
-      const contractPath = forgeArtifact.ast?.absolutePath;
-      if (!contractPath) {
-        throw new Error(
-          `Must compile with ast to build harhat style artifacts`
-        );
-      }
-
-      const dir = path.join(this._root, artifacts, contractPath);
-      const out = path.join(dir, path.basename(filepath));
+      const out = this._getHardhatArtifactPathFromForgePath(filepath);
       fsExtra.mkdirpSync(path.dirname(out));
       fsExtra.writeJsonSync(out, artifact, { spaces: 2 });
+
+      if (this._useBuildInfo === true) {
+        this._writeDebugFile(out, artifact.sourceName);
+      }
     }
+  }
+
+  /**
+   * Writes a debug file to disk. The debug file contains
+   * the path to the build info artifact corresponding
+   * to the hardhat artifact
+   */
+  private _writeDebugFile(out: string, sourceName: string) {
+    for (const { buildInfo, buildInfoPath } of this.buildInfos) {
+      for (const contract of Object.keys(buildInfo.output.contracts)) {
+        if (contract === sourceName) {
+          const debugFile = {
+            _format: "hh-sol-dbg-1",
+            buildInfo: path.relative(path.dirname(out), buildInfoPath),
+          };
+          const debug = this._getDebugFilePath(out);
+          fsExtra.writeJsonSync(debug, debugFile, { spaces: 2 });
+          return;
+        }
+      }
+    }
+  }
+
+  /**
+   * Converts a foundry artifact path to a hardhat artifact path
+   */
+  private _getHardhatArtifactPathFromForgePath(filepath: string) {
+    const artifacts = path.relative(this._root, this._artifacts);
+    const forgeArtifact = fsExtra.readJsonSync(filepath) as ForgeArtifact;
+
+    const contractPath = forgeArtifact.ast?.absolutePath;
+    if (!contractPath) {
+      throw new Error("Must compile with ast to build harhat style artifacts");
+    }
+
+    const dir = path.join(this._root, artifacts, contractPath);
+    return path.join(dir, path.basename(filepath));
   }
 }
 

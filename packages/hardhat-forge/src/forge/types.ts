@@ -1,3 +1,5 @@
+import { BuildInfo } from "hardhat/types";
+
 /**
  * Represents an artifact emitted by forge
  */
@@ -46,4 +48,11 @@ export interface FileEntry {
   imports: any[];
   versionRequirement: string;
   artifacts: Map<string, string>;
+}
+
+// Represents a BuildInfo and the path
+// to its file on the filesystem
+export interface BuildInfoArtifact {
+  buildInfo: BuildInfo;
+  buildInfoPath: string;
 }
