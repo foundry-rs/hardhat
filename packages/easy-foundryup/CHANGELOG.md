@@ -1,5 +1,11 @@
 # @foundry-rs/easy-foundryup
 
+## 0.1.3
+
+### Patch Changes
+
+- a7bb4be: fix: catch clause can't have any type annotation
+
 ## 0.1.2
 
 ### Patch Changes

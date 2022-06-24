@@ -1,5 +1,37 @@
 # @foundry-rs/hardhat
 
+## 0.1.6
+
+### Patch Changes
+
+- e02aee0: fix flaky tests
+- Updated dependencies [e02aee0]
+- Updated dependencies [e02aee0]
+- Updated dependencies [e02aee0]
+- Updated dependencies [e02aee0]
+  - @foundry-rs/hardhat-forge@0.1.7
+  - @foundry-rs/hardhat-anvil@0.1.5
+
+## 0.1.5
+
+### Patch Changes
+
+- 9ba6d04: use correct output dir for main entry
+- 6d0971c: fix: reexport via package name import
+- 505357b: Fix build ordering
+- 47bb439: add test change
+- 36c829b: fix dependency and anvil command issues
+- Updated dependencies [7d3f9f3]
+- Updated dependencies [9ba6d04]
+- Updated dependencies [64750ac]
+- Updated dependencies [36c829b]
+- Updated dependencies [736941e]
+- Updated dependencies [b092fe5]
+- Updated dependencies [a7bb4be]
+  - @foundry-rs/hardhat-forge@0.1.4
+  - @foundry-rs/hardhat-anvil@0.1.4
+  - @foundry-rs/easy-foundryup@0.1.3
+
 ## 0.1.4
 
 ### Patch Changes
