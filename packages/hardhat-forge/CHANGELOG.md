@@ -1,5 +1,12 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.9
+
+### Patch Changes
+
+- d3a6a10: Add `foundry` section to hardhat config
+- b53d145: Fix hh style foundry config
+
 ## 0.1.8
 
 ### Patch Changes
