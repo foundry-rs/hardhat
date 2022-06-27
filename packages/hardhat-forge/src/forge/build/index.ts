@@ -14,8 +14,9 @@ registerProjectPathArgs(registerCompilerArgs(task("compile")))
     "viaIr",
     "Use the Yul intermediate representation compilation pipeline."
   )
-  .setAction(async (args, {}, runSuper) => {
-    const buildArgs = await getCheckedArgs(args);
+  .setAction(async (args, hre, runSuper) => {
+    const input = { ...args, ...(hre.config.foundry || {}) };
+    const buildArgs = await getCheckedArgs(input);
     await spawnBuild(buildArgs);
     await runSuper(args);
   });

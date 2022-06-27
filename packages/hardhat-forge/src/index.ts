@@ -1,12 +1,18 @@
-import { extendEnvironment } from "hardhat/config";
+import "./forge/types";
+import { extendEnvironment, extendConfig } from "hardhat/config";
 import { lazyObject } from "hardhat/plugins";
+import {
+  HardhatConfig,
+  HardhatUserConfig,
+  HardhatRuntimeEnvironment,
+} from "hardhat/types";
 import path from "path";
 import { ForgeArtifacts, spawnConfigSync } from "./forge";
 
 export * from "./task-names";
 export * as forge from "./forge";
 
-extendEnvironment((hre) => {
+extendEnvironment((hre: HardhatRuntimeEnvironment) => {
   // patches the default artifacts handler
   (hre as any).artifacts = lazyObject(() => {
     const config = spawnConfigSync();
@@ -27,3 +33,9 @@ extendEnvironment((hre) => {
     return artifacts;
   });
 });
+
+extendConfig(
+  (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
+    config.foundry = userConfig.foundry || {};
+  }
+);
