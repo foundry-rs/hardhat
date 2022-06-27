@@ -1,4 +1,21 @@
+import "hardhat/types/config";
 import { BuildInfo } from "hardhat/types";
+import { ForgeEvmArgs } from "./common/evm";
+import { ForgeBuildArgs } from "./build/build";
+
+export interface FoundryHardhatConfig
+  extends Partial<ForgeEvmArgs>,
+    Partial<ForgeBuildArgs> {}
+
+declare module "hardhat/types/config" {
+  interface HardhatConfig {
+    foundry?: Partial<FoundryHardhatConfig>;
+  }
+
+  interface HardhatUserConfig {
+    foundry?: Partial<FoundryHardhatConfig>;
+  }
+}
 
 /**
  * Represents an artifact emitted by forge

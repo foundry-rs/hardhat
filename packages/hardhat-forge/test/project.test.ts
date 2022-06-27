@@ -21,6 +21,11 @@ describe("Integration tests", function () {
       assert.equal(config.out, "out");
     });
 
+    it("Should populare hre.config.foundry", async function () {
+      assert.exists(this.hre.config.foundry);
+      assert.typeOf(this.hre.config.foundry, "object");
+    });
+
     it("Should read artifacts", async function () {
       const artifacts = await this.hre.artifacts.getArtifactPaths();
       assert.isNotEmpty(artifacts);
