@@ -24,6 +24,7 @@ describe("Integration tests", function () {
     it("Should populare hre.config.foundry", async function () {
       assert.exists(this.hre.config.foundry);
       assert.typeOf(this.hre.config.foundry, "object");
+      assert.equal(this.hre.config.foundry?.viaIr, true);
     });
 
     it("Should read artifacts", async function () {

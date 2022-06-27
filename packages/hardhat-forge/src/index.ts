@@ -1,7 +1,11 @@
 import "./forge/types";
 import { extendEnvironment, extendConfig } from "hardhat/config";
 import { lazyObject } from "hardhat/plugins";
-import { HardhatConfig, HardhatRuntimeEnvironment } from "hardhat/types";
+import {
+  HardhatConfig,
+  HardhatUserConfig,
+  HardhatRuntimeEnvironment,
+} from "hardhat/types";
 import path from "path";
 import { ForgeArtifacts, spawnConfigSync } from "./forge";
 
@@ -30,6 +34,8 @@ extendEnvironment((hre: HardhatRuntimeEnvironment) => {
   });
 });
 
-extendConfig((config: HardhatConfig) => {
-  config.foundry = config.foundry || {};
-});
+extendConfig(
+  (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
+    config.foundry = userConfig.foundry || {};
+  }
+);
