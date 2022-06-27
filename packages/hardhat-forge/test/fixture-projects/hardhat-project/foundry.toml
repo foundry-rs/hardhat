@@ -4,5 +4,6 @@ out = 'out'
 libs = ['lib']
 
 extra_output = ['devdoc', 'userdoc', 'metadata', 'storageLayout']
+build_info = true
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
