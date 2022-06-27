@@ -1,6 +1,6 @@
 {
     "name": "@foundry-rs/hardhat",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "Foundry's hardhat plugin",
     "homepage": "https://github.com/foundry-rs/hardhat",
     "repository": "github:foundry-rs/hardhat",
@@ -35,8 +35,8 @@
     ],
     "dependencies": {
         "@foundry-rs/easy-foundryup": "^0.1.3",
-        "@foundry-rs/hardhat-anvil": "^0.1.5",
-        "@foundry-rs/hardhat-forge": "^0.1.7",
+        "@foundry-rs/hardhat-anvil": "^0.1.6",
+        "@foundry-rs/hardhat-forge": "^0.1.8",
         "@types/sinon-chai": "^3.2.3",
         "@types/web3": "1.0.19",
         "camelcase-keys": "^7.0.2",

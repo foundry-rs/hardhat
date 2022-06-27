@@ -1,5 +1,14 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.8
+
+### Patch Changes
+
+- 7e193d4: Add deprecated private method for typechain compat
+- 7ed40a4: Use the correct source name in the artifact
+- bb320b3: Better `BuildInfo` support
+- 44c261c: Implement `Artifacts.getBuildInfo`
+
 ## 0.1.7
 
 ### Patch Changes

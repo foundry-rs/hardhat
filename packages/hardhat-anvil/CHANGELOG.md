@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-anvil
 
+## 0.1.6
+
+### Patch Changes
+
+- ba96df2: fix flaky tests
+
 ## 0.1.5
 
 ### Patch Changes
