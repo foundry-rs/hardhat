@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.10
+
+### Patch Changes
+
+- 648d494: Make foundry config lazy
+
 ## 0.1.9
 
 ### Patch Changes

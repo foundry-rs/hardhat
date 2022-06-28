@@ -1,6 +1,6 @@
 {
   "name": "@foundry-rs/hardhat-forge",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Hardhat plugin for foundry's forge",
   "homepage": "https://github.com/foundry-rs/hardhat",
   "repository": "github:foundry-rs/hardhat",
