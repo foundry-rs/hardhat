@@ -36,6 +36,8 @@ extendEnvironment((hre: HardhatRuntimeEnvironment) => {
 
 extendConfig(
   (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
-    config.foundry = userConfig.foundry || {};
+    config.foundry = lazyObject(() => {
+      return userConfig.foundry || {};
+    });
   }
 );
