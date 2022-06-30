@@ -5,7 +5,9 @@ import { ForgeBuildArgs } from "./build/build";
 
 export interface FoundryHardhatConfig
   extends Partial<ForgeEvmArgs>,
-    Partial<ForgeBuildArgs> {}
+    Partial<ForgeBuildArgs> {
+  runSuper?: boolean;
+}
 
 declare module "hardhat/types/config" {
   interface HardhatConfig {

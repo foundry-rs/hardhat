@@ -37,7 +37,11 @@ extendEnvironment((hre: HardhatRuntimeEnvironment) => {
 extendConfig(
   (config: HardhatConfig, userConfig: Readonly<HardhatUserConfig>) => {
     config.foundry = lazyObject(() => {
-      return userConfig.foundry || {};
+      // Set default values then merge user defined values
+      return {
+        runSuper: false,
+        ...userConfig.foundry,
+      };
     });
   }
 );
