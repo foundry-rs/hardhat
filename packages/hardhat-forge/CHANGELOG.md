@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.11
+
+### Patch Changes
+
+- 68a4772: Allow user configured `runSuper` to be called in the build task
+
 ## 0.1.10
 
 ### Patch Changes
