@@ -18,7 +18,9 @@ registerProjectPathArgs(registerCompilerArgs(task("compile")))
     const input = { ...args, ...(hre.config.foundry || {}) };
     const buildArgs = await getCheckedArgs(input);
     await spawnBuild(buildArgs);
-    await runSuper(args);
+    if (hre.config.foundry?.runSuper!) {
+      await runSuper(args);
+    }
   });
 
 async function getCheckedArgs(args: any): Promise<ForgeBuildArgs> {
