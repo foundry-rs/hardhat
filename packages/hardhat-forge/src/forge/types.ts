@@ -7,6 +7,7 @@ export interface FoundryHardhatConfig
   extends Partial<ForgeEvmArgs>,
     Partial<ForgeBuildArgs> {
   runSuper?: boolean;
+  skipTests?: boolean;
 }
 
 declare module "hardhat/types/config" {

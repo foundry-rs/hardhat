@@ -1,8 +1,22 @@
-import { task } from "hardhat/config";
+import { task, subtask } from "hardhat/config";
+import { TASK_COMPILE_SOLIDITY_GET_SOURCE_PATHS } from "hardhat/builtin-tasks/task-names";
 import camelcaseKeys = require("camelcase-keys");
 import { NomicLabsHardhatPluginError } from "hardhat/internal/core/errors";
 import { registerCompilerArgs, registerProjectPathArgs } from "../common";
 import { ForgeBuildArgs, spawnBuild } from "./build";
+
+// Allow the user to skip compiling tests if the `skipTests` config
+// is set in the foundry config. This speeds up compilation time by a lot.
+subtask(TASK_COMPILE_SOLIDITY_GET_SOURCE_PATHS).setAction(
+  async (_, hre, runSuper) => {
+    const paths = await runSuper();
+
+    if (hre.config.foundry?.skipTests!) {
+      return paths.filter((p: string) => !p.endsWith(".t.sol"));
+    }
+    return paths;
+  }
+);
 
 registerProjectPathArgs(registerCompilerArgs(task("compile")))
   .setDescription("Compiles the entire project with forge")
