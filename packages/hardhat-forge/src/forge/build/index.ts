@@ -18,6 +18,11 @@ registerProjectPathArgs(registerCompilerArgs(task("compile")))
     const input = { ...args, ...(hre.config.foundry || {}) };
     const buildArgs = await getCheckedArgs(input);
     await spawnBuild(buildArgs);
+
+    if (hre.config.foundry?.writeArtifacts!) {
+      (hre as any).artifacts.writeArtifactsSync();
+    }
+
     if (hre.config.foundry?.runSuper!) {
       await runSuper(args);
     }
