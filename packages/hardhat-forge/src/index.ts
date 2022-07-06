@@ -29,7 +29,6 @@ extendEnvironment((hre: HardhatRuntimeEnvironment) => {
       config.build_info
     );
 
-    artifacts.writeArtifactsSync();
     return artifacts;
   });
 });
@@ -40,6 +39,7 @@ extendConfig(
       // Set default values then merge user defined values
       return {
         runSuper: false,
+        writeArtifacts: true,
         ...userConfig.foundry,
       };
     });

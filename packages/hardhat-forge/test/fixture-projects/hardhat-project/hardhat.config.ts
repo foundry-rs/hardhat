@@ -7,7 +7,8 @@ const config: HardhatUserConfig = {
   solidity: "0.7.3",
   defaultNetwork: "hardhat",
   foundry: {
-    viaIr: true
+    viaIr: true,
+    writeArtifacts: true,
   },
 };
 
