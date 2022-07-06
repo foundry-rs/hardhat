@@ -4,7 +4,9 @@ This Hardhat plugin is for [forge](https://github.com/foundry-rs/foundry/tree/ma
 
 ## What
 
-This plugin provides bindings for `forge` commands as hardhat tasks.
+This plugin provides bindings for `forge` commands as hardhat tasks. It can
+generate hardhat style artifacts that can be used with hardhat tooling such as
+[hardhat-deploy](https://github.com/wighawag/hardhat-deploy) or hardhat tasks.
 
 ## Installation
 
@@ -28,12 +30,24 @@ import "@foundry-rs/hardhat-forge";
 
 This plugin provides the following tasks:
 
-- "forge::build" for "`forge build`
-- "forge::test" for "`forge test`
+- `forge:config` returns the forge config
+- `compile` overwrites the standard hardhat compile and uses the foundry
+  toolchain instead
 
 ## Configuration
 
 See [Foundry](https://github.com/foundry-rs/foundry).
+
+The `HardhatUserConfig` is extended with a `foundry` object that can be used
+to configure the plugin as well as `forge`.
+
+```js
+const config: HardhatUserConfig = {
+  foundry: {
+    buildInfo: true,
+  },
+}
+```
 
 ## LICENSE
 
