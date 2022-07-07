@@ -17,9 +17,10 @@ extendEnvironment((hre: HardhatRuntimeEnvironment) => {
   (hre as any).artifacts = lazyObject(() => {
     const config = spawnConfigSync();
     const outDir = path.join(hre.config.paths.root, config.out);
-    // the build info directory is not currently configurable,
-    // it will always be placed in out/build-info
-    const buildInfoDir = path.join(outDir, "build-info");
+    const buildInfoDir =
+      typeof config.build_info_path === "string"
+        ? config.build_info_path
+        : path.join(outDir, "build-info");
 
     const artifacts = new ForgeArtifacts(
       hre.config.paths.root,

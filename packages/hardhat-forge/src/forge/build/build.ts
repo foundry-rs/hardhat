@@ -22,6 +22,7 @@ export declare interface ForgeBuildArgs extends CompilerArgs, ProjectPathArgs {
   offline?: boolean;
   viaIr?: boolean;
   buildInfo?: boolean;
+  buildInfoPath?: string;
 }
 
 /** *
@@ -78,6 +79,9 @@ export function buildArgs(args: ForgeBuildArgs): string[] {
   }
   if (args.buildInfo === true) {
     allArgs.push("--build-info");
+  }
+  if (typeof args.buildInfoPath === "string") {
+    allArgs.push("--build-info-path", args.buildInfoPath);
   }
 
   allArgs.push(...compilerArgs(args));
