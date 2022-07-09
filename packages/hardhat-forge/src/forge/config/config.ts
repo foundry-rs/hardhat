@@ -64,4 +64,5 @@ export declare interface FoundryConfig {
   revert_strings?: any;
   sparse_mode?: boolean;
   build_info?: boolean;
+  build_info_path?: string;
 }
