@@ -78,6 +78,7 @@ describe("Integration tests", function () {
       assert.exists(contract.abi);
       assert.exists((contract as any).devdoc);
       assert.exists((contract as any).metadata);
+      assert.typeOf((contract as any).metadata, "object");
       assert.exists((contract as any).storageLayout);
       assert.exists((contract as any).userdoc);
       assert.exists(contract.evm);
