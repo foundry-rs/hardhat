@@ -143,6 +143,16 @@ export class ForgeArtifacts implements IArtifacts {
     }
 
     const buildInfo = fsExtra.readJsonSync(buildInfoPath) as BuildInfo;
+
+    // Handle ethers-solc serializing the metadata as a string
+    // when hardhat serializes it as an object
+    for (const contract of Object.values(buildInfo.output.contracts)) {
+      for (const output of Object.values(contract)) {
+        if (typeof (output as any).metadata === "string") {
+          (output as any).metadata = JSON.parse((output as any).metadata);
+        }
+      }
+    }
     return buildInfo;
   }
 
