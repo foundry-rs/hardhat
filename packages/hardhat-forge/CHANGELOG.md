@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.13
+
+### Patch Changes
+
+- 8fe943c: Add build_info_path config
+
 ## 0.1.12
 
 ### Patch Changes
