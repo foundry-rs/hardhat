@@ -1,5 +1,12 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.14
+
+### Patch Changes
+
+- 0395e08: Add build_info_path config
+- f2d3db9: Deserialize compiler output metadata in buildinfo
+
 ## 0.1.13
 
 ### Patch Changes
