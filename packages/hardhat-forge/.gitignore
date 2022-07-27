@@ -5,3 +5,4 @@ build/
 artifacts/
 cache/
 !src/forge/build
+build-info
