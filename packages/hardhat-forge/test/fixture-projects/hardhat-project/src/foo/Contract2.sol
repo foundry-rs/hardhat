@@ -1,8 +1,7 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-contract FooBar {
-
+contract Contract {
   function example() public {}
 
 }
