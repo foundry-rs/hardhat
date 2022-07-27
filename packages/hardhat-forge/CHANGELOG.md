@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.15
+
+### Patch Changes
+
+- 26cccf8: Handle writing artifacts when multiple contracts have the same name
+
 ## 0.1.14
 
 ### Patch Changes
