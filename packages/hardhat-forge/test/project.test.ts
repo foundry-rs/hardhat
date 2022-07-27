@@ -30,7 +30,9 @@ describe("Integration tests", function () {
     it("Should read artifacts", async function () {
       const artifacts = await this.hre.artifacts.getArtifactPaths();
       assert.isNotEmpty(artifacts);
-      const contract = await this.hre.artifacts.readArtifact("Contract");
+      const contract = await this.hre.artifacts.readArtifact(
+        "Contract.sol:Contract"
+      );
       assert.equal(contract.sourceName, "src/Contract.sol");
       assert.exists(contract.abi);
       assert.exists(contract.bytecode);
@@ -71,7 +73,9 @@ describe("Integration tests", function () {
     });
 
     it("Should return build info", async function () {
-      const info = await this.hre.artifacts.getBuildInfo("Contract");
+      const info = await this.hre.artifacts.getBuildInfo(
+        "Contract.sol:Contract"
+      );
       assert.exists(info);
       const contract = info?.output.contracts["src/Contract.sol"].Contract!;
       assert.exists(contract);

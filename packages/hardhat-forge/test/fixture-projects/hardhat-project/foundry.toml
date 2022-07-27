@@ -1,4 +1,4 @@
-[default]
+[profile.default]
 src = 'src'
 out = 'out'
 libs = ['lib']
@@ -6,5 +6,3 @@ libs = ['lib']
 extra_output = ['devdoc', 'userdoc', 'metadata', 'storageLayout']
 build_info = true
 build_info_path = 'build-info'
-
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config

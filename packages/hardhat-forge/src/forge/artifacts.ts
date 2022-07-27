@@ -94,6 +94,11 @@ export class ForgeArtifacts implements IArtifacts {
       throw new Error("Must compile with ast");
     }
 
+    if (isFullyQualifiedName(name)) {
+      const { contractName } = parseFullyQualifiedName(name);
+      name = contractName;
+    }
+
     const hhArtifact = {
       _format: ARTIFACT_FORMAT_VERSION,
       contractName: name,
@@ -572,7 +577,9 @@ Please replace "${contractName}" for the correct contract name wherever you are 
     const paths = this._getArtifactPathsSync();
 
     for (const filepath of paths) {
-      const artifact = this.readArtifactSync(path.parse(filepath).name);
+      // Handle multiple contracts with the same name
+      const fqn = this._getFullyQualifiedNameFromPath(filepath);
+      const artifact = this.readArtifactSync(fqn);
       const out = this._getHardhatArtifactPathFromForgePath(filepath);
       fsExtra.mkdirpSync(path.dirname(out));
       fsExtra.writeJsonSync(out, artifact, { spaces: 2 });
