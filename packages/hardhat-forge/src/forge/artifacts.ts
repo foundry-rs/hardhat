@@ -299,13 +299,25 @@ export class ForgeArtifacts implements IArtifacts {
     const artifactPath =
       this.formArtifactPathFromFullyQualifiedName(fullyQualifiedName);
 
-    const trueCaseArtifactPath = await this._trueCasePath(
+    let trueCaseArtifactPath = await this._trueCasePath(
       path.relative(this._out, artifactPath),
       this._out
     );
 
+    // On case-sensitive filesystems, "true-case-path"
+    // contains a bug that results in it only observing
+    // one of the many possible matching files but with different
+    // casings. If this bug is encountered, check to see if the
+    // artifact path exists on the filesystem and if it does then
+    // we know that the casing is not a problem.
     if (trueCaseArtifactPath === null) {
-      return this._handleWrongArtifactForFullyQualifiedName(fullyQualifiedName);
+      if (await fsExtra.pathExists(artifactPath)) {
+        trueCaseArtifactPath = artifactPath;
+      } else {
+        return this._handleWrongArtifactForFullyQualifiedName(
+          fullyQualifiedName
+        );
+      }
     }
 
     if (artifactPath !== trueCaseArtifactPath) {
@@ -472,13 +484,19 @@ Please replace "${contractName}" for the correct contract name wherever you are 
     const artifactPath =
       this.formArtifactPathFromFullyQualifiedName(fullyQualifiedName);
 
-    const trueCaseArtifactPath = this._trueCasePathSync(
+    let trueCaseArtifactPath = this._trueCasePathSync(
       path.relative(this._out, artifactPath),
       this._out
     );
 
     if (trueCaseArtifactPath === null) {
-      return this._handleWrongArtifactForFullyQualifiedName(fullyQualifiedName);
+      if (fsExtra.pathExistsSync(artifactPath)) {
+        trueCaseArtifactPath = artifactPath;
+      } else {
+        return this._handleWrongArtifactForFullyQualifiedName(
+          fullyQualifiedName
+        );
+      }
     }
 
     if (artifactPath !== trueCaseArtifactPath) {
