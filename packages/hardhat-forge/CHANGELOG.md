@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.16
+
+### Patch Changes
+
+- 7f7e14f: Handle case insensitivity in filesystem
+
 ## 0.1.15
 
 ### Patch Changes
