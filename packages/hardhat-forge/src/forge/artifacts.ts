@@ -165,7 +165,7 @@ export class ForgeArtifacts implements IArtifacts {
     const paths = await glob(path.join(this._out, "**/*.json"), {
       ignore: path.join(this._buildInfo, "*.json"),
     });
-    return paths.filter(p => !p.endsWith(".metadata.json")).sort();
+    return paths.filter((p) => !p.endsWith(".metadata.json")).sort();
   }
 
   public async getBuildInfoPaths(): Promise<string[]> {
@@ -218,7 +218,7 @@ export class ForgeArtifacts implements IArtifacts {
     const paths = globSync(path.join(this._out, "**/*.json"), {
       ignore: path.join(this._buildInfo, "*.json"),
     });
-    return paths.filter(p => !p.endsWith(".metadata.json")).sort();
+    return paths.filter((p) => !p.endsWith(".metadata.json")).sort();
   }
 
   /**
