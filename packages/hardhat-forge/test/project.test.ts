@@ -48,8 +48,10 @@ describe("Integration tests", function () {
     it("Should write artifacts to disk", async function () {
       const artifacts = await this.hre.artifacts.getArtifactPaths();
       const files = await getAllFiles(this.hre.config.paths.artifacts);
-      // filter out the debug files
-      const filtered = files.filter((f) => !f.includes(".dbg.json"));
+      // filter out the debug files and metadata
+      const filtered = files
+        .filter((f) => !f.includes(".dbg.json"))
+        .filter((f) => !f.includes(".metadata.json"));
       assert.equal(artifacts.length, filtered.length);
 
       for (const file of filtered) {
