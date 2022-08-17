@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-forge
 
+## 0.1.17
+
+### Patch Changes
+
+- a032ce6: Ignore metadata files when getting contract artifacts
+
 ## 0.1.16
 
 ### Patch Changes
