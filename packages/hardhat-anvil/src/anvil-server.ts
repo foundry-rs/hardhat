@@ -55,8 +55,8 @@ export class AnvilServer {
       if (options.chainId) {
         args.push("--chain-id", options.chainId);
       }
-      if (options.forkurl) {
-        args.push("--fork-url", options.forkurl);
+      if (options.forkUrl) {
+        args.push("--fork-url", options.forkUrl);
         if (options.forkBlockNumber) {
           args.push("--fork-block-number", options.forkBlockNumber);
         }
