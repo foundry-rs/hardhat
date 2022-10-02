@@ -1,6 +1,6 @@
 {
   "name": "@foundry-rs/hardhat-anvil",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Hardhat plugin for managing Anvil",
   "homepage": "https://github.com/foundry-rs/hardhat",
   "repository": "github:foundry-rs/hardhat",

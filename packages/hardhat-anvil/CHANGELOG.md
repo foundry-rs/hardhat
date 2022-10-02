@@ -1,5 +1,11 @@
 # @foundry-rs/hardhat-anvil
 
+## 0.1.7
+
+### Patch Changes
+
+- 83a5e01: Fix forkUrl option handling
+
 ## 0.1.6
 
 ### Patch Changes
