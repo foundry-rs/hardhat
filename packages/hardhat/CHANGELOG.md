@@ -1,5 +1,13 @@
 # @foundry-rs/hardhat
 
+## 0.1.8
+
+### Patch Changes
+
+- 83a5e01: Fix forkUrl option handling
+- Updated dependencies [83a5e01]
+  - @foundry-rs/hardhat-anvil@0.1.7
+
 ## 0.1.7
 
 ### Patch Changes
