@@ -21,6 +21,7 @@ export declare interface ForgeBuildArgs extends CompilerArgs, ProjectPathArgs {
   useSolc?: string;
   offline?: boolean;
   viaIr?: boolean;
+  ast?: boolean;
   buildInfo?: boolean;
   buildInfoPath?: string;
 }
@@ -76,6 +77,9 @@ export function buildArgs(args: ForgeBuildArgs): string[] {
   }
   if (args.viaIr === true) {
     allArgs.push("--via-ir");
+  }
+  if (args.ast === true) {
+    allArgs.push("--ast");
   }
   if (args.buildInfo === true) {
     allArgs.push("--build-info");
