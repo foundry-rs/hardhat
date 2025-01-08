@@ -14,7 +14,7 @@ See in each plugin
 
 - [Foundry repo](https://github.com/foundry-rs/foundry/)
 - [Foundry book](https://book.getfoundry.sh/)
-- [Anvil](https://github.com/foundry-rs/foundry/tree/master/anvil)
+- [Anvil](https://github.com/foundry-rs/foundry/tree/master/crates/anvil)
 
 ## Releases
 
